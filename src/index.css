@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 html {
   overflow-y: scroll;
@@ -20,6 +20,7 @@ a {
   --bg-forth: #f0f2f5;
   --color-primary: #050505;
   --color-secondary: #65676b;
+  --color-danger: #b94a48;
   --divider: #ced0d4;
   --dark-bg-primary: #18191a;
   --dark-bg-secondary: #242526;
@@ -35,3 +36,21 @@ a {
   --shadow-3: rgba(0, 0, 0, 0.3);
   --shadow-inset: rgba(255, 255, 255, 0.5);
 }
+
+/* -- Buttons -- */
+.blue_btn {
+  border: none;
+  outline: none;
+  background: var(--blue-color);
+  padding: 8.5px 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+/* -- Buttons -- */
