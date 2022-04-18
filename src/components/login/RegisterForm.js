@@ -1,13 +1,24 @@
+import axios from 'axios';
 import RegisterInput from 'components/inputs/registerInput';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import DateOfBirthSelect from './DateOfBirthSelect';
 import GenderSelect from './GenderSelect';
+import RotateLoader from 'react-spinners/RotateLoader';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
-const RegisterForm = () => {
+const RegisterForm = ({ setIsOpen }) => {
   const [dateError, setDateError] = useState('');
   const [genderError, setGenderError] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const registerInformation = {
     first_name: '',
     last_name: '',
@@ -67,6 +78,38 @@ const RegisterForm = () => {
       .max(36, 'Password can not be more than 36 characters'),
   });
 
+  const registerForm = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/register`,
+        {
+          first_name,
+          last_name,
+          email,
+          password,
+          bYear,
+          bMonth,
+          bDay,
+          gender,
+        }
+      );
+      setError('');
+      setSuccess(data.message);
+      const { message, ...rest } = data;
+      setTimeout(() => {
+        dispatch({ type: 'LOGIN', payload: rest });
+        Cookies.set('user', JSON.stringify(rest));
+        setLoading(false);
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      setSuccess('');
+      setError(error.response.data.message);
+    }
+  };
+
   const handleSubmit = () => {
     let currentDate = new Date();
     let pickedDate = new Date(bYear, bMonth - 1, bDay);
@@ -86,6 +129,7 @@ const RegisterForm = () => {
     } else {
       setDateError('');
       setGenderError('');
+      registerForm();
     }
   };
 
@@ -93,7 +137,7 @@ const RegisterForm = () => {
     <div className="blur">
       <div className="register">
         <div className="register_header">
-          <i className="exit_icon"></i>
+          <i className="exit_icon" onClick={() => setIsOpen(false)}></i>
           <span>Sign Up</span>
           <span>It's quick and easy</span>
         </div>
@@ -173,6 +217,11 @@ const RegisterForm = () => {
                   Sign Up
                 </button>
               </div>
+              {loading && (
+                <RotateLoader color="#1876f2" loading={loading} size={10} />
+              )}
+              {error && <div className="error_text">{error}</div>}
+              {success && <div className="success_text">{success}</div>}
             </Form>
           )}
         </Formik>

@@ -240,8 +240,16 @@
   position: absolute;
   top: 65px;
 }
-
 /* -- DateOfBirth and gender errors -- */
+
+/* -- Error and Success Styles -- */
+.error_text {
+  color: var(--color-danger);
+}
+.success_text {
+  color: var(--green-color);
+}
+/* -- Error and Success Styles -- */
 
 /* -- Media Queries -- */
 @media (min-width: 539px) {

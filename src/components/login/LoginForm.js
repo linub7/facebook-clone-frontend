@@ -1,17 +1,25 @@
 import LoginInput from 'components/inputs/loginInput';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import axios from 'axios';
+import RotateLoader from 'react-spinners/RotateLoader';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 
-const loginInformation = {
-  email: '',
-  password: '',
-};
-
-const LoginForm = () => {
+const LoginForm = ({ setIsOpen }) => {
+  const loginInformation = {
+    email: '',
+    password: '',
+  };
   const [login, setLogin] = useState(loginInformation);
   const { email, password } = login;
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLoginInputChange = (e) => {
     const {
@@ -27,6 +35,27 @@ const LoginForm = () => {
       .max(100),
     password: Yup.string().required('Password is required'),
   });
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/login`,
+        { email, password }
+      );
+      const { message, ...rest } = data;
+      setTimeout(() => {
+        dispatch({ type: 'LOGIN', payload: rest });
+        Cookies.set('user', JSON.stringify(rest));
+        setLoading(false);
+        navigate('/');
+      }, 2000);
+      setError('');
+    } catch (error) {
+      setLoading(false);
+      setError(error.response.data.message);
+    }
+  };
   return (
     <div className="login_wrap">
       <div className="login_1">
@@ -44,6 +73,9 @@ const LoginForm = () => {
               password,
             }}
             validationSchema={loginValidation}
+            onSubmit={() => {
+              handleSubmit();
+            }}
           >
             {(formik) => (
               <Form>
@@ -69,8 +101,17 @@ const LoginForm = () => {
           <Link to={`/forgot`} className="forgot_password">
             Forgotten Password?
           </Link>
+          {error && <div className="error_text">{error}</div>}
+          {loading && (
+            <RotateLoader color="#1876f2" loading={loading} size={10} />
+          )}
           <div className="sign_splitter"></div>
-          <button className="blue_btn open_signup">Create Account</button>
+          <button
+            className="blue_btn open_signup"
+            onClick={() => setIsOpen(true)}
+          >
+            Create Account
+          </button>
         </div>
         <Link to={`/`} className="sign_extra">
           <b>Create a Page </b>
