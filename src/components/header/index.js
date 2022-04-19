@@ -14,12 +14,14 @@ import {
   Notifications,
   ArrowDown,
 } from '../../svg';
+import AllMenu from './AllMenu';
 import SearchMenu from './SearchMenu';
 
 import './style.css';
 const Header = () => {
   const color = '#65676b';
   const [showSearchMenu, setShowSearchMenu] = useState(false);
+  const [showAllMenu, setShowAllMenu] = useState(false);
   const { user } = useSelector((user) => ({ ...user }));
 
   return (
@@ -62,8 +64,12 @@ const Header = () => {
           <img src={user?.picture} alt="profile" />
           <span>{user?.first_name}</span>
         </Link>
-        <div className="circle_icon hover1">
+        <div
+          className="circle_icon hover1"
+          onClick={() => setShowAllMenu(true)}
+        >
           <Menu />
+          {showAllMenu && <AllMenu setShowAllMenu={setShowAllMenu} />}
         </div>
         <div className="circle_icon hover1">
           <Messenger />
