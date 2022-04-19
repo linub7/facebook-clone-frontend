@@ -18,7 +18,7 @@ import './style.css';
 const Header = () => {
   const color = '#65676b';
   const { user } = useSelector((user) => ({ ...user }));
-  console.log(user);
+
   return (
     <header>
       <div className="header_left">
