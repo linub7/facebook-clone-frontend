@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import useClickOutside from 'helpers/clickOutside';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -18,11 +19,26 @@ import AllMenu from './AllMenu';
 import SearchMenu from './SearchMenu';
 
 import './style.css';
+import UserMenu from './userMenu';
+
 const Header = () => {
   const color = '#65676b';
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
+
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const { user } = useSelector((user) => ({ ...user }));
+
+  const allMenu = useRef(null);
+  const userMenu = useRef(null);
+
+  useClickOutside(allMenu, () => {
+    setShowAllMenu(false);
+  });
+
+  useClickOutside(userMenu, () => {
+    setShowUserMenu(false);
+  });
 
   return (
     <header>
@@ -65,12 +81,13 @@ const Header = () => {
           <span>{user?.first_name}</span>
         </Link>
         <div
+          ref={allMenu}
           className="circle_icon hover1"
-          onClick={() => setShowAllMenu(true)}
+          onClick={() => setShowAllMenu((prev) => !prev)}
         >
           <Menu />
-          {showAllMenu && <AllMenu setShowAllMenu={setShowAllMenu} />}
         </div>
+        {showAllMenu && <AllMenu />}
         <div className="circle_icon hover1">
           <Messenger />
         </div>
@@ -78,8 +95,16 @@ const Header = () => {
           <Notifications />
           <div className="right_notification">5</div>
         </div>
-        <div className="circle_icon hover1">
-          <ArrowDown />
+        <div className="circle_icon hover1" ref={userMenu}>
+          <div
+            onClick={() => {
+              setShowUserMenu((prev) => !prev);
+            }}
+          >
+            <ArrowDown />
+          </div>
+
+          {showUserMenu && <UserMenu user={user} />}
         </div>
       </div>
     </header>

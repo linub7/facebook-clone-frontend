@@ -3,13 +3,9 @@ import { useRef } from 'react';
 import { create, menu as menuItems } from 'data/allMenu';
 import AllMenuItem from './AllMenuItem';
 
-const AllMenu = ({ setShowAllMenu }) => {
-  const menu = useRef(null);
-  useClickOutside(menu, () => {
-    setShowAllMenu(false);
-  });
+const AllMenu = ({}) => {
   return (
-    <div className="all_menu" ref={menu}>
+    <div className="all_menu">
       <div className="all_menu_header">Menu</div>
       <div className="all_menu_wrap scrollbar">
         <div className="all_left">
