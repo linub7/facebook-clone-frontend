@@ -240,7 +240,7 @@ header {
 /*-- Search All Menu --*/
 .all_menu {
   position: absolute;
-  right: -9rem;
+  right: 1rem;
   top: 45px;
   background: var(--bg-secondary);
   border-radius: 10px;
@@ -486,3 +486,151 @@ header {
   height: 20px;
 }
 /*-------User menu----*/
+
+/* -- Active Header -- */
+.active_header {
+  background: var(--light-blue-color);
+}
+
+.active_header svg {
+  fill: var(--blue-color);
+}
+/* -- Active Header -- */
+
+/* -- Media Queries -- */
+@media (max-width: 1295px) {
+  .middle_icon {
+    width: 90px;
+  }
+}
+
+@media (max-width: 1130px) {
+  .middle_icon {
+    width: 70px;
+  }
+}
+
+@media (max-width: 1040px) {
+  .search1 {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .search1 input {
+    display: none;
+  }
+
+  .header_middle {
+    transform: translateX(-15%);
+  }
+}
+
+@media (max-width: 945px) {
+  .header_middle {
+    transform: translateX(-27%);
+  }
+}
+
+@media (max-width: 850px) {
+  .header_middle {
+    transform: translateX(-38%);
+  }
+
+  .middle_icon:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .header_middle {
+    transform: translateX(-40%);
+  }
+
+  .middle_icon:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .middle_icon:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .profile_link:nth-child(1) {
+    display: none;
+  }
+
+  .all_menu {
+    width: 405px;
+  }
+
+  .all_left {
+    width: 250px;
+  }
+}
+
+@media (max-width: 550px) {
+  .middle_icon:nth-child(1) {
+    display: none;
+  }
+
+  .header_middle {
+    transform: translateX(-40%);
+  }
+}
+
+@media (max-width: 505px) {
+  .middle_icon:nth-child(2) {
+    transform: translateX(22px);
+  }
+  .all_menu {
+    width: 340px;
+    right: 1rem;
+  }
+
+  .all_menu_wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .all_left {
+    width: 100%;
+  }
+
+  .all_right {
+    position: relative;
+    width: 100%;
+    padding-left: 3rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .header_right .circle_icon:nth-child(3) {
+    display: none;
+  }
+
+  .all_menu {
+    left: -8rem;
+  }
+
+  .mmenu {
+    width: 340px;
+  }
+}
+
+@media (max-width: 320px) {
+  .circle_icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .all_menu {
+    width: 290px;
+  }
+}
+
+/* -- Media Queries -- */
