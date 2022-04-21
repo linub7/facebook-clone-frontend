@@ -1,6 +1,6 @@
 import LoginInput from 'components/inputs/loginInput';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -20,6 +20,14 @@ const LoginForm = ({ setIsOpen }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      setLogin({ email: '', password: '' });
+      setError('');
+      setLoading(false);
+    };
+  }, []);
 
   const handleLoginInputChange = (e) => {
     const {

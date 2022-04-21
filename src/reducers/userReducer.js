@@ -9,6 +9,9 @@ export function userReducer(state = initialValues, action) {
     case 'LOGIN':
       return payload;
 
+    case 'LOGOUT':
+      return null;
+
     default:
       return state;
   }
