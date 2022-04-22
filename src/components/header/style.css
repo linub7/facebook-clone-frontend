@@ -313,7 +313,7 @@ header {
   height: 550px;
   width: 170px;
   position: fixed;
-  right: 2rem;
+  right: -1rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 .all_right_header {
@@ -540,7 +540,7 @@ header {
 @media (max-width: 505px) {
   .all_menu {
     width: 340px;
-    right: -9rem;
+    right: 0;
   }
   .all_menu_wrap {
     grid-template-columns: 1fr;
