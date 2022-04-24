@@ -2,7 +2,7 @@ import axios from 'axios';
 import RegisterInput from 'components/inputs/registerInput';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DateOfBirthSelect from './DateOfBirthSelect';
 import GenderSelect from './GenderSelect';
 import RotateLoader from 'react-spinners/RotateLoader';
@@ -18,6 +18,15 @@ const RegisterForm = ({ setIsOpen }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {
+    return () => {
+      setDateError('');
+      setGenderError('');
+      setError('');
+      setSuccess('');
+      setLoading(false);
+    };
+  }, []);
 
   const registerInformation = {
     first_name: '',

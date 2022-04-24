@@ -1,4 +1,5 @@
 import Home from 'pages/home';
+import Activate from 'pages/home/activate';
 import Login from 'pages/login';
 import Profile from 'pages/profile';
 import { Routes, Route } from 'react-router-dom';
@@ -14,6 +15,7 @@ function App() {
         </Route>
         <Route element={<LoggedInRoutes />}>
           <Route path="/profile" element={<Profile />} exact />
+          <Route path="/activate/:tokenId" element={<Activate />} exact />
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>

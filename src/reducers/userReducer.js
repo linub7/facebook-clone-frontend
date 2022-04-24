@@ -9,6 +9,9 @@ export function userReducer(state = initialValues, action) {
     case 'LOGIN':
       return payload;
 
+    case 'ACTIVATE':
+      return { ...state, verified: true };
+
     case 'LOGOUT':
       return null;
 
