@@ -106,7 +106,7 @@ const LoginForm = ({ setIsOpen }) => {
               </Form>
             )}
           </Formik>
-          <Link to={`/forgot`} className="forgot_password">
+          <Link to={`/reset`} className="forgot_password">
             Forgotten Password?
           </Link>
           {error && <div className="error_text">{error}</div>}
