@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DisplayAccessibility from './DisplayAccessibility';
 import HelpSupport from './HelpSupport';
 import SettingsPrivacy from './SettingsPrivacy';
@@ -9,10 +9,12 @@ import { useDispatch } from 'react-redux';
 export default function UserMenu({ user }) {
   const [visible, setVisible] = useState(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     Cookies.remove('user');
     dispatch({ type: 'LOGOUT' });
+    navigate('/login');
   };
   return (
     <div className="mmenu">
