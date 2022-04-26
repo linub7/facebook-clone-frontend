@@ -1,0 +1,48 @@
+import LoginInput from 'components/inputs/loginInput';
+import { Form, Formik } from 'formik';
+import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
+
+const SearchAccount = ({ error, email, setEmail }) => {
+  const validateEmail = Yup.object({
+    email: Yup.string()
+      .required('Email address is required')
+      .email('Must be a valid email address')
+      .max(50, `Email address can't be more than 50 characters`),
+  });
+  return (
+    <div className="reset_form">
+      <div className="reset_form_header">Find your account</div>
+      <div className="reset_form_text">Please enter your email address</div>
+      <Formik
+        enableReinitialize
+        initialValues={{
+          email,
+        }}
+        validationSchema={validateEmail}
+      >
+        {(formik) => (
+          <Form>
+            <LoginInput
+              type="text"
+              name="email"
+              placeholder={'Enter your email address'}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {error && <div className="error_text">{error}</div>}
+            <div className="reset_form_btns">
+              <Link to={'/login'} className="gray_btn">
+                Cancel
+              </Link>
+              <button type="submit" className="blue_btn">
+                Search
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default SearchAccount;
