@@ -71,6 +71,7 @@
 .reset_form_btns a,
 .reset_form_btns button {
   width: 90px;
+  height: 40px;
 }
 .reset_grid {
   display: grid;
@@ -158,7 +159,7 @@
     height: 330px;
   }
   .reset_form_btns {
-    padding-left: 65%;
+    padding-left: 44%;
   }
 }
 
