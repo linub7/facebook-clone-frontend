@@ -15,6 +15,7 @@ const Reset = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [userInfos, setUserInfos] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [visible, setVisible] = useState(0);
 
@@ -27,7 +28,6 @@ const Reset = () => {
     navigate('/login');
   };
 
-  console.log(userInfos);
   return (
     <div className="reset">
       <div className="reset_header">
@@ -72,16 +72,32 @@ const Reset = () => {
             setVisible={setVisible}
           />
         )}
-        {visible === 2 && (
-          <CodeVerification code={code} setCode={setCode} error={error} />
+        {visible === 2 && userInfos && (
+          <CodeVerification
+            code={code}
+            error={error}
+            userInfos={userInfos}
+            loading={loading}
+            setCode={setCode}
+            setError={setError}
+            setLoading={setLoading}
+            setVisible={setVisible}
+          />
         )}
-        {visible === 3 && (
+        {visible === 3 && userInfos && (
           <ChangePassword
             password={password}
-            setPassword={setPassword}
             confirmPassword={confirmPassword}
-            setConfirmPassword={setConfirmPassword}
+            code={code}
             error={error}
+            loading={loading}
+            userInfos={userInfos}
+            success={success}
+            setSuccess={setSuccess}
+            setLoading={setLoading}
+            setPassword={setPassword}
+            setConfirmPassword={setConfirmPassword}
+            setError={setError}
           />
         )}
       </div>

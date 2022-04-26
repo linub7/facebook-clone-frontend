@@ -747,3 +747,12 @@
   width: 21px;
   height: 21px;
 }
+
+.reset_password_icon {
+  background-image: url(../../../public/icons/icons38.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+}

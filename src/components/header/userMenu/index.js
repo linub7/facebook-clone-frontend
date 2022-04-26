@@ -82,6 +82,12 @@ export default function UserMenu({ user }) {
               <i className="right_icon"></i>
             </div>
           </div>
+          <Link to={'/reset'} className="mmenu_item hover3">
+            <div className="small_circle">
+              <i className="reset_password_icon"></i>
+            </div>
+            <span>Change Password</span>
+          </Link>
           <div className="mmenu_item hover3" onClick={handleLogout}>
             <div className="small_circle">
               <i className="logout_filled_icon"></i>
