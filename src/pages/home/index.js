@@ -1,4 +1,5 @@
 import CreatePost from 'components/createPost';
+import CreatePostPopup from 'components/createPostPopup';
 import Header from 'components/header';
 import LeftHome from 'components/home/left';
 import RightHome from 'components/home/right';
@@ -11,6 +12,7 @@ const Home = () => {
   const { user } = useSelector((user) => ({ ...user }));
   return (
     <div className="home">
+      <CreatePostPopup user={user} />
       <Header />
       <LeftHome user={user} />
       <div className="home_middle">

@@ -3,6 +3,7 @@ import Activate from 'pages/home/activate';
 import Login from 'pages/login';
 import Profile from 'pages/profile';
 import Reset from 'pages/reset';
+
 import { Routes, Route } from 'react-router-dom';
 import LoggedInRoutes from 'routes/LoggedInRoutes';
 import NotLoggedInRoutes from 'routes/NotLoggedInRoutes';
