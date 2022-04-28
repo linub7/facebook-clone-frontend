@@ -6,13 +6,30 @@ const ImagePreview = ({
   setText,
   user,
   images,
+  error,
   setImages,
   setShowPreview,
+  setError,
 }) => {
   const imageInputRef = useRef(null);
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
     files.forEach((img) => {
+      if (
+        img.type !== 'image/jpeg' &&
+        img.type !== 'image/png' &&
+        img.type !== 'image/webp' &&
+        img.type !== 'image/jpg' &&
+        img.type !== 'image/gif'
+      ) {
+        setError(`only image formats are allowed`);
+        files = files.filter((item) => item.name !== img.name);
+        return;
+      } else if (img.size > 1024 * 1024 * 5) {
+        setError(`Maximum size is 5MB`);
+        files = files.filter((item) => item.name !== img.name);
+        return;
+      }
       const reader = new FileReader();
       reader.readAsDataURL(img);
       reader.onload = (readerEvent) => {
@@ -26,6 +43,7 @@ const ImagePreview = ({
       <div className="add_pics_wrap">
         <input
           type="file"
+          accept="image/*"
           multiple
           hidden
           ref={imageInputRef}
@@ -72,12 +90,14 @@ const ImagePreview = ({
           </div>
         ) : (
           <div className="add_pics_inside1">
-            <div
-              className="small_white_circle"
-              onClick={() => setShowPreview(false)}
-            >
-              <i className="exit_icon"></i>
-            </div>
+            {!error && (
+              <div
+                className="small_white_circle"
+                onClick={() => setShowPreview(false)}
+              >
+                <i className="exit_icon"></i>
+              </div>
+            )}
             <div
               className="add_col"
               onClick={() => imageInputRef.current.click()}

@@ -7,6 +7,8 @@ import ImagePreview from './ImagePreview';
 import PulseLoader from 'react-spinners/PulseLoader';
 import './style.css';
 import PostError from './PostError';
+import dataURItoBlob from 'helpers/dataURItoBlog';
+import { uploadImages } from 'functions/uploadImages';
 
 const CreatePostPopup = ({ user, setVisible }) => {
   const { picture, first_name, last_name } = user;
@@ -42,6 +44,54 @@ const CreatePostPopup = ({ user, setVisible }) => {
       } else {
         setError(response);
       }
+    } else if (images && images.length) {
+      setLoading(true);
+      const postImages = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = `${user.username}/post Images`;
+      let formData = new FormData();
+      formData.append('path', path);
+      postImages.forEach((image) => {
+        formData.append('file', image);
+      });
+      const response = await uploadImages(formData, path, user.token);
+      const sendResponse = await createPost(
+        null,
+        null,
+        text,
+        response,
+        user.id,
+        user.token
+      );
+      setVisible(false);
+      if (sendResponse === 'ok') {
+        setText('');
+        setBackground('');
+        setVisible(false);
+      } else {
+        setError(sendResponse);
+      }
+    } else if (text) {
+      setLoading(true);
+      const response = await createPost(
+        null,
+        null,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (response === 'ok') {
+        setText('');
+        setBackground('');
+        setVisible(false);
+      } else {
+        setError(response);
+      }
+    } else {
+      console.log('nothing');
     }
   };
   return (
@@ -82,10 +132,12 @@ const CreatePostPopup = ({ user, setVisible }) => {
             text={text}
             images={images}
             user={user}
+            error={error}
             showPreview={showPreview}
             setText={setText}
             setImages={setImages}
             setShowPreview={setShowPreview}
+            setError={setError}
           />
         )}
         <AddToYourPost setShowPreview={setShowPreview} />
