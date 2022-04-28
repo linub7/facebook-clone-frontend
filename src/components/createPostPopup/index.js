@@ -1,9 +1,12 @@
+import { createPost } from 'functions/post';
 import useClickOutside from 'helpers/clickOutside';
 import { useRef, useState } from 'react';
 import AddToYourPost from './AddToYourPost';
 import EmojiPickerBackgrounds from './EmojiPickerBackgrounds';
 import ImagePreview from './ImagePreview';
+import PulseLoader from 'react-spinners/PulseLoader';
 import './style.css';
+import PostError from './PostError';
 
 const CreatePostPopup = ({ user, setVisible }) => {
   const { picture, first_name, last_name } = user;
@@ -11,6 +14,8 @@ const CreatePostPopup = ({ user, setVisible }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [images, setImages] = useState([]);
   const [background, setBackground] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const createPostPopupRef = useRef(null);
 
@@ -18,9 +23,31 @@ const CreatePostPopup = ({ user, setVisible }) => {
     setVisible(false);
   });
 
+  const handleSubmit = async () => {
+    if (background) {
+      setLoading(true);
+      const response = await createPost(
+        null,
+        background,
+        text,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (response === 'ok') {
+        setText('');
+        setBackground('');
+        setVisible(false);
+      } else {
+        setError(response);
+      }
+    }
+  };
   return (
     <div className="blur">
       <div className="postBox" ref={createPostPopupRef}>
+        {error && <PostError error={error} setError={setError} />}
         <div className="box_header">
           <div className="small_circle" onClick={() => setVisible(false)}>
             <i className="exit_icon"></i>
@@ -62,7 +89,9 @@ const CreatePostPopup = ({ user, setVisible }) => {
           />
         )}
         <AddToYourPost setShowPreview={setShowPreview} />
-        <button className="post_submit">Post</button>
+        <button className="post_submit" onClick={handleSubmit}>
+          {loading ? <PulseLoader color="#fff" size={5} /> : 'Post'}
+        </button>
       </div>
     </div>
   );
