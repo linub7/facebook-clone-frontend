@@ -408,3 +408,36 @@
 .singular_grid img:nth-child(1) {
   grid-column: 1/3;
 }
+
+.postBackgrounds {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.postBackgrounds img {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.no_bg {
+  background: var(--bg-secondary);
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.bgHandler {
+  height: 360px;
+  width: 100%;
+  background-size: cover;
+}
+
+.bgHandler textarea {
+  text-align: center;
+  height: 360px;
+  margin-top: 10px;
+}

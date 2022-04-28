@@ -1,13 +1,13 @@
 import { Feeling, LiveVideo, Photo } from 'svg';
 import './style.css';
 
-const CreatePost = ({ user }) => {
+const CreatePost = ({ user, setVisible }) => {
   const { picture, first_name } = user;
   return (
     <div className="createPost">
       <div className="createPost_header">
         <img src={picture} alt="user" className="" />
-        <div className="open_post hover2">
+        <div className="open_post hover2" onClick={() => setVisible(true)}>
           What's on your mind, {first_name} ?
         </div>
       </div>
