@@ -4,8 +4,9 @@ import './style.css';
 import { Dots, Public } from 'svg';
 import ReactPopup from './ReactPopup';
 import { useState } from 'react';
+import CreateComment from './CreateComment';
 
-const Post = ({ post }) => {
+const Post = ({ post, user: ownUser }) => {
   const { user, type, createdAt, background, text, images } = post;
 
   const [visible, setVisible] = useState(false);
@@ -118,6 +119,10 @@ const Post = ({ post }) => {
           <i className="share_icon"></i>
           <span>Share</span>
         </div>
+      </div>
+      <div className="comments_wrap">
+        <div className="comments_order"></div>
+        <CreateComment user={ownUser} />
       </div>
     </div>
   );

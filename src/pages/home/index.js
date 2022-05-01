@@ -43,8 +43,6 @@ const Home = () => {
     error: '',
   });
 
-  console.log('posts', posts);
-
   useEffect(() => {
     setHeight(middle.current.clientHeight);
 
@@ -85,7 +83,7 @@ const Home = () => {
         <CreatePost user={user} setVisible={setVisible} />
         <div className="posts">
           {posts.map((post) => (
-            <Post post={post} key={post._id} />
+            <Post post={post} key={post._id} user={user} />
           ))}
         </div>
       </div>
