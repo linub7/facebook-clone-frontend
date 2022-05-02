@@ -90,7 +90,7 @@
     right: 0;
   }
 }
-@media (max-width: 885px) {
+@media (max-width: 965px) {
   .right_home {
     display: none;
   }

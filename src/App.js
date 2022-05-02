@@ -17,6 +17,7 @@ function App() {
         </Route>
         <Route element={<LoggedInRoutes />}>
           <Route path="/profile" element={<Profile />} exact />
+          <Route path="/profile/:username" element={<Profile />} exact />
           <Route path="/activate/:tokenId" element={<Activate />} exact />
           <Route path="/" element={<Home />} />
         </Route>

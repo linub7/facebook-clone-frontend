@@ -9,23 +9,8 @@ import Post from 'components/post';
 import Stories from 'components/stories';
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { postsReducer } from 'reducers/postsReducer';
 import './style.css';
-
-function reducer(state, action) {
-  const { type, payload } = action;
-
-  switch (type) {
-    case 'POSTS_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'POSTS_SUCCESS':
-      return { ...state, loading: false, posts: payload, error: '' };
-    case 'POSTS_ERROR':
-      return { ...state, loading: false, error: payload };
-
-    default:
-      return state;
-  }
-}
 
 const Home = () => {
   const [visible, setVisible] = useState(false);
@@ -37,7 +22,7 @@ const Home = () => {
 
   const { user } = useSelector((user) => ({ ...user }));
 
-  const [{ loading, posts, error }, dispatch] = useReducer(reducer, {
+  const [{ loading, posts, error }, dispatch] = useReducer(postsReducer, {
     loading: false,
     posts: [],
     error: '',
@@ -75,7 +60,7 @@ const Home = () => {
           setTmpPost={setTmpPost}
         />
       )}
-      <Header />
+      <Header page={'home'} />
       <LeftHome user={user} />
       <div className="home_middle" ref={middle}>
         <Stories />

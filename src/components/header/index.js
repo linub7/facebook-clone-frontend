@@ -14,6 +14,7 @@ import {
   Messenger,
   Notifications,
   ArrowDown,
+  Home,
 } from '../../svg';
 import AllMenu from './AllMenu';
 import SearchMenu from './SearchMenu';
@@ -21,7 +22,7 @@ import SearchMenu from './SearchMenu';
 import './style.css';
 import UserMenu from './userMenu';
 
-const Header = () => {
+const Header = ({ page }) => {
   const color = '#65676b';
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -58,8 +59,11 @@ const Header = () => {
         <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
       )}
       <div className="header_middle">
-        <Link to={'/'} className="middle_icon active">
-          <HomeActive />
+        <Link
+          to={'/'}
+          className={`middle_icon ${page === 'home' ? 'active' : ''}`}
+        >
+          {page === 'home' ? <HomeActive /> : <Home color={color} />}
         </Link>
         <Link to={'/'} className="middle_icon hover1">
           <Friends color={color} />
@@ -76,7 +80,12 @@ const Header = () => {
         </Link>
       </div>
       <div className="header_right">
-        <Link to="/profile" className="profile_link hover1">
+        <Link
+          to="/profile"
+          className={`profile_link hover1 ${
+            page === 'profile' ? 'active_link' : ''
+          }`}
+        >
           <img src={user?.picture} alt="profile" />
           <span>{user?.first_name}</span>
         </Link>
