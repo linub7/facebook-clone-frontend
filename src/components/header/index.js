@@ -61,7 +61,7 @@ const Header = ({ page }) => {
       <div className="header_middle">
         <Link
           to={'/'}
-          className={`middle_icon ${page === 'home' ? 'active' : ''}`}
+          className={`middle_icon ${page === 'home' ? 'active' : 'hover1'}`}
         >
           {page === 'home' ? <HomeActive /> : <Home color={color} />}
         </Link>

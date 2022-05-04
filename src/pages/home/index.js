@@ -12,11 +12,7 @@ import { useSelector } from 'react-redux';
 import { postsReducer } from 'reducers/postsReducer';
 import './style.css';
 
-const Home = () => {
-  const [visible, setVisible] = useState(false);
-
-  const [tmpPost, setTmpPost] = useState(false);
-
+const Home = ({ visible, setVisible, tmpPost, setTmpPost }) => {
   const [height, setHeight] = useState('');
   const middle = useRef(null);
 

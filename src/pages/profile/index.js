@@ -1,13 +1,19 @@
 import axios from 'axios';
+import CreatePost from 'components/createPost';
+import CreatePostPopup from 'components/createPostPopup';
 import Header from 'components/header';
 import { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { profileReducer } from 'reducers/profileReducer';
-import Cover from './Cover';
+import Cover from 'components/profile/Cover';
+import PeopleYouMayKnow from 'components/profile/PeopleYouMayKnow';
+import ProfileMenu from 'components/profile/ProfileMenu';
+import ProfilePictureInfos from 'components/profile/ProfilePictureInfos';
 import './style.css';
+import GridPosts from 'components/profile/GridPosts';
 
-const Profile = () => {
+const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   const { username } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
   const userName = username === undefined ? user.username : username;
@@ -46,6 +52,13 @@ const Profile = () => {
 
   return (
     <div className="profile">
+      {visible && (
+        <CreatePostPopup
+          user={user}
+          setVisible={setVisible}
+          setTmpPost={setTmpPost}
+        />
+      )}
       <Header page={'profile'} />
       <div className="profile_top">
         <div className="profile_container">
@@ -54,6 +67,22 @@ const Profile = () => {
             showCoverMenu={showCoverMenu}
             setShowCoverMenu={setShowCoverMenu}
           />
+          <ProfilePictureInfos profile={profile} />
+          <ProfileMenu />
+        </div>
+      </div>
+      <div className="profile_bottom">
+        <div className="profile_container">
+          <div className="bottom_container">
+            <PeopleYouMayKnow />
+            <div className="profile_grid">
+              <div className="profile_left"></div>
+              <div className="profile_right">
+                <CreatePost user={user} profile setVisible={setVisible} />
+                <GridPosts />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
