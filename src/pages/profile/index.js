@@ -12,6 +12,9 @@ import ProfileMenu from 'components/profile/ProfileMenu';
 import ProfilePictureInfos from 'components/profile/ProfilePictureInfos';
 import './style.css';
 import GridPosts from 'components/profile/GridPosts';
+import Post from 'components/post';
+import Photos from 'components/profile/Photos';
+import Friends from 'components/profile/Friends';
 
 const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   const { username } = useParams();
@@ -29,6 +32,8 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   useEffect(() => {
     getProfile();
   }, [userName]);
+
+  const visitor = userName === user.username ? false : true;
 
   const getProfile = async () => {
     try {
@@ -50,6 +55,8 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
     }
   };
 
+  console.log(profile);
+
   return (
     <div className="profile">
       {visible && (
@@ -64,10 +71,11 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
         <div className="profile_container">
           <Cover
             cover={profile?.cover}
+            visitor={visitor}
             showCoverMenu={showCoverMenu}
             setShowCoverMenu={setShowCoverMenu}
           />
-          <ProfilePictureInfos profile={profile} />
+          <ProfilePictureInfos profile={profile} visitor={visitor} />
           <ProfileMenu />
         </div>
       </div>
@@ -76,10 +84,29 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
           <div className="bottom_container">
             <PeopleYouMayKnow />
             <div className="profile_grid">
-              <div className="profile_left"></div>
+              <div className="profile_left">
+                <Photos userName={userName} token={user.token} />
+                <Friends friends={profile?.friends} />
+              </div>
               <div className="profile_right">
-                <CreatePost user={user} profile setVisible={setVisible} />
+                {!visitor && (
+                  <CreatePost user={user} profile setVisible={setVisible} />
+                )}
                 <GridPosts />
+                <div className="posts">
+                  {profile.posts && profile.posts.length ? (
+                    profile.posts.map((post) => (
+                      <Post
+                        key={post._id}
+                        post={post}
+                        user={post.user}
+                        profile
+                      />
+                    ))
+                  ) : (
+                    <div className="no_posts">No Posts Available</div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

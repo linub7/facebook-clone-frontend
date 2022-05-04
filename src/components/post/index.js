@@ -7,13 +7,13 @@ import { useState } from 'react';
 import CreateComment from './CreateComment';
 import PostMenu from './PostMenu';
 
-const Post = ({ post, user: ownUser }) => {
+const Post = ({ post, user: ownUser, profile }) => {
   const { user, type, createdAt, background, text, images } = post;
 
   const [visible, setVisible] = useState(false);
   const [postMenuVisible, setPostMenuVisible] = useState(false);
   return (
-    <div className="post">
+    <div className="post" style={{ width: `${profile ? '84%' : ''}` }}>
       <div className="post_header">
         <Link to={`/profile/${user.username}`} className="post_header_left">
           <img src={user.picture} alt={user.username} />

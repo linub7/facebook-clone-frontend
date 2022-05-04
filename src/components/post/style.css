@@ -449,6 +449,11 @@
   margin: 5px 0;
 }
 /*------Post menu------*/
+@media (max-width: 965px) {
+  .post {
+    width: 100%;
+  }
+}
 @media (max-width: 415px) {
   .post .grid_2 img,
   .post .grid_3 img,
