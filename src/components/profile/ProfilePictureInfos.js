@@ -1,6 +1,11 @@
+import { useState } from 'react';
+import ProfilePicture from './profilePicture';
+
 const ProfilePictureInfos = ({ profile, visitor }) => {
+  const [show, setShow] = useState(false);
   return (
     <div className="profile_img_wrap">
+      {show && <ProfilePicture setShow={setShow} />}
       <div className="profile_w_left">
         <div className="profile_w_img">
           <div
@@ -11,7 +16,10 @@ const ProfilePictureInfos = ({ profile, visitor }) => {
             }}
           ></div>
           {!visitor && (
-            <div className="profile_circle hover1">
+            <div
+              className="profile_circle hover1"
+              onClick={() => setShow(true)}
+            >
               <i className="camera_filled_icon"></i>
             </div>
           )}

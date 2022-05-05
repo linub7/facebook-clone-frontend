@@ -6,11 +6,11 @@ const Friends = ({ friends }) => {
         <div className="profile_header_link">See all Friends</div>
       </div>
       <div className="profile_card_count">
-        {friends.length === 0
+        {friends?.length === 0
           ? ''
-          : friends.length === 1
+          : friends?.length === 1
           ? '1 Photos'
-          : `${friends.length} Photos`}
+          : `${friends?.length} Photos`}
       </div>
       <div className="profile_card_grid">
         {friends &&
