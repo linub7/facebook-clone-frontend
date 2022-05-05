@@ -1,6 +1,6 @@
 .pictureBox {
   width: 700px !important;
-  height: 62vh;
+  height: 80vh;
 }
 
 .update_picture_wrap {
@@ -154,4 +154,38 @@
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
+}
+
+.old_pictures_wrap {
+  padding: 15px;
+  overflow-y: auto;
+  height: 300px;
+}
+
+.old_pictures_wrap h4 {
+  padding: 10px 0;
+}
+
+.old_pictures {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  gap: 10px;
+}
+
+.old_pictures img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.old_pictures img:hover {
+  filter: brightness(110%);
+  transform: scale(1.1);
+}
+
+.old_pictures:first-of-type {
+  border-bottom: 1px solid var(--bg-third);
 }

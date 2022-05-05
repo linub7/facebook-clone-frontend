@@ -22,6 +22,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   const userName = username === undefined ? user.username : username;
   const navigate = useNavigate();
   const [showCoverMenu, setShowCoverMenu] = useState(false);
+  const [photos, setPhotos] = useState([]);
 
   const [{ loading, profile, error }, dispatch] = useReducer(profileReducer, {
     loading: false,
@@ -42,8 +43,29 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
         `${process.env.REACT_APP_BACKEND_URL}/get-profile/${userName}`,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
-
-      dispatch({ type: 'PROFILE_SUCCESS', payload: data });
+      if (data.ok === false) {
+        navigate('/');
+      } else {
+        try {
+          const images = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}/list-images`,
+            {
+              path: `${userName}/*`,
+              sort: 'desc',
+              max: 10,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+          setPhotos(images.data);
+        } catch (error) {
+          console.log(error);
+        }
+        dispatch({ type: 'PROFILE_SUCCESS', payload: data });
+      }
     } catch (error) {
       dispatch({
         type: 'PROFILE_ERROR',
@@ -73,7 +95,12 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             showCoverMenu={showCoverMenu}
             setShowCoverMenu={setShowCoverMenu}
           />
-          <ProfilePictureInfos profile={profile} visitor={visitor} />
+          <ProfilePictureInfos
+            profile={profile}
+            visitor={visitor}
+            photos={photos.resources}
+            username={user.username}
+          />
           <ProfileMenu />
         </div>
       </div>
@@ -83,7 +110,11 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
-                <Photos userName={userName} token={user.token} />
+                <Photos
+                  userName={userName}
+                  token={user.token}
+                  photos={photos}
+                />
                 <Friends friends={profile?.friends} />
               </div>
               <div className="profile_right">

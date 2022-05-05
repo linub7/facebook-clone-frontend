@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import './style.css';
 import UpdateProfilePicture from './UpdateProfilePicture';
 
-const ProfilePicture = ({ setShow, profileRef }) => {
+const ProfilePicture = ({ setShow, profileRef, photos, username }) => {
   const [image, setImage] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -77,7 +77,40 @@ const ProfilePicture = ({ setShow, profileRef }) => {
             </button>
           </div>
         )}
-        <div className="old_pictures_wrap"></div>
+        <div className="old_pictures_wrap scrollbar">
+          <h4>Your Profile Pictures</h4>
+          <div className="old_pictures">
+            {photos &&
+              photos
+                .filter(
+                  (photo) => photo.folder === `${username}/profile_pictures`
+                )
+                .map((img, index) => (
+                  <img
+                    src={img.secure_url}
+                    key={index}
+                    alt="old"
+                    onClick={() => setImage(img.secure_url)}
+                  />
+                ))}
+          </div>
+          <h4>Other Pictures</h4>
+          <div className="old_pictures">
+            {photos &&
+              photos
+                .filter(
+                  (photo) => photo.folder !== `${username}/profile_pictures`
+                )
+                .map((img, index) => (
+                  <img
+                    src={img.secure_url}
+                    key={index}
+                    alt="old"
+                    onClick={() => setImage(img.secure_url)}
+                  />
+                ))}
+          </div>
+        </div>
       </div>
       {image && (
         <UpdateProfilePicture

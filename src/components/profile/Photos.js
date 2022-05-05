@@ -2,39 +2,7 @@ import axios from 'axios';
 import { useEffect, useReducer } from 'react';
 import { photosReducer } from 'reducers/photosReducer';
 
-const Photos = ({ userName, token }) => {
-  const [{ error, loading, photos }, dispatch] = useReducer(photosReducer, {
-    error: '',
-    loading: false,
-    photos: {},
-  });
-
-  useEffect(() => {
-    getPhotos();
-  }, [userName]);
-
-  const getPhotos = async () => {
-    try {
-      dispatch({ type: 'PHOTOS_REQUEST' });
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/list-images`,
-        {
-          path: `${userName}/*`,
-          sort: 'desc',
-          max: 10,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch({ type: 'PHOTOS_SUCCESS', payload: data });
-    } catch (error) {
-      dispatch({ type: 'PHOTOS_ERROR', error: error.response.data.message });
-    }
-  };
-
+const Photos = ({ userName, token, photos }) => {
   return (
     <div className="profile_card">
       <div className="profile_card_header">
