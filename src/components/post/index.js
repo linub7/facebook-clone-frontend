@@ -23,11 +23,11 @@ const Post = ({ post, user: ownUser, profile }) => {
               <div className="updated_p">
                 {type === 'profilePicture' &&
                   `Update ${
-                    user.gender === 'male' ? 'him' : 'her'
+                    user.gender === 'male' ? 'his' : 'her'
                   } profile picture`}
                 {type === 'cover' &&
                   `Update ${
-                    user.gender === 'male' ? 'him' : 'her'
+                    user.gender === 'male' ? 'his' : 'her'
                   } cover picture`}
               </div>
             </div>

@@ -55,8 +55,6 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
     }
   };
 
-  console.log(profile);
-
   return (
     <div className="profile">
       {visible && (

@@ -11,7 +11,6 @@ const ProfilePicture = ({ setShow }) => {
 
   const handleImage = (e) => {
     let file = e.target.files[0];
-    console.log(file);
     if (
       file.type !== 'image/jpeg' &&
       file.type !== 'image/jpg' &&
