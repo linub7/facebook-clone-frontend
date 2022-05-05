@@ -1,4 +1,3 @@
-import useClickOutside from 'helpers/clickOutside';
 import { useRef, useState } from 'react';
 import './style.css';
 import UpdateProfilePicture from './UpdateProfilePicture';
@@ -83,6 +82,7 @@ const ProfilePicture = ({ setShow }) => {
       </div>
       {image && (
         <UpdateProfilePicture
+          image={image}
           setImage={setImage}
           description={description}
           setDescription={setDescription}
