@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import './style.css';
 import UpdateProfilePicture from './UpdateProfilePicture';
 
-const ProfilePicture = ({ setShow }) => {
+const ProfilePicture = ({ setShow, profileRef }) => {
   const [image, setImage] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
@@ -85,6 +85,8 @@ const ProfilePicture = ({ setShow }) => {
           setImage={setImage}
           description={description}
           setDescription={setDescription}
+          setShow={setShow}
+          profileRef={profileRef}
         />
       )}
     </div>

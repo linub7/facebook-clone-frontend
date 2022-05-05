@@ -4,20 +4,26 @@ import { updateProfilePhoto } from 'functions/user';
 import getCroppedImg from 'helpers/getCroppedImg';
 import { useCallback, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
+import Cookies from 'js-cookie';
 
 const UpdateProfilePicture = ({
   image,
   setImage,
   description,
   setDescription,
+  setShow,
+  profileRef,
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const sliderRef = useRef(null);
 
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state }));
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
@@ -55,6 +61,7 @@ const UpdateProfilePicture = ({
 
   const updateProfilePicture = async () => {
     try {
+      setLoading(true);
       const img = await getCroppedImage();
       const blob = await fetch(img).then((b) => b.blob());
       const path = `${user.username}/profile_pictures`;
@@ -72,15 +79,25 @@ const UpdateProfilePicture = ({
           user.id,
           user.token
         );
+
         if (newPost === 'ok') {
+          setLoading(false);
+          setImage('');
+          profileRef.current.style.backgroundImage = `url(${res[0].url})`;
+          Cookies.set('user', JSON.stringify({ ...user, picture: res[0].url }));
+          dispatch({ type: 'UPDATE_PICTURE', payload: res[0].url });
+          setShow(false);
         } else {
           setError(newPost);
+          setLoading(false);
         }
       } else {
         setError(updatedPhoto);
+        setLoading(false);
       }
     } catch (error) {
       setError(error.response.data.message);
+      setLoading(false);
     }
   };
   return (
@@ -142,9 +159,15 @@ const UpdateProfilePicture = ({
         <i className="public_icon"></i>Your Profile Picture is Public
       </div>
       <div className="update_submit_wrap">
-        <div className="blue_link">Cancel</div>
-        <button className="blue_btn" onClick={updateProfilePicture}>
-          Save
+        <div className="blue_link" onClick={() => setImage('')}>
+          Cancel
+        </div>
+        <button
+          disabled={loading}
+          className="blue_btn"
+          onClick={updateProfilePicture}
+        >
+          {loading ? <PulseLoader color="#fff" size={5} /> : 'Save'}
         </button>
       </div>
     </div>
