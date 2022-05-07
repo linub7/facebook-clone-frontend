@@ -54,7 +54,7 @@ const Post = ({ post, user: ownUser, profile }) => {
         >
           {text}
         </div>
-      ) : (
+      ) : type === null ? (
         <>
           <div className="post_text">{text}</div>
           {images && images.length && (
@@ -87,6 +87,15 @@ const Post = ({ post, user: ownUser, profile }) => {
             </div>
           )}
         </>
+      ) : type === 'profilePicture' ? (
+        <div className="post_profile_wrap">
+          <div className="post_updated_bg">
+            {user.cover && <img src={user.cover} alt="cover" />}
+          </div>
+          <img src={images[0].url} alt="" className="post_updated_picture" />
+        </div>
+      ) : (
+        <div className="post_cover_wrap">post cover wrap</div>
       )}
       <div className="post_infos">
         <div className="reacts_count">
