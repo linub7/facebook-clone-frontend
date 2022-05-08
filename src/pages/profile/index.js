@@ -15,6 +15,7 @@ import GridPosts from 'components/profile/GridPosts';
 import Post from 'components/post';
 import Photos from 'components/profile/Photos';
 import Friends from 'components/profile/Friends';
+import Intro from 'components/profile/intro';
 
 const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   const { username } = useParams();
@@ -114,6 +115,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
+                <Intro details={profile?.details} />
                 <Photos
                   userName={userName}
                   token={user.token}

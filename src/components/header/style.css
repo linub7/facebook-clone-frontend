@@ -9,6 +9,7 @@ header {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   color: var(--color-primary);
+  z-index: 99999;
 }
 /*---Header left-----*/
 .header_left {
