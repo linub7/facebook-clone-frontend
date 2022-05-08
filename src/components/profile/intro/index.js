@@ -1,97 +1,143 @@
-import { useState } from 'react';
+import { updateDetails } from 'functions/user';
+import { useEffect, useState } from 'react';
+import Bio from './Bio';
 import './style.css';
-const Intro = ({ details }) => {
+const Intro = ({ details, visitor, token, setForceRenderPage }) => {
   const initialDetails = {
     bio: details?.bio ? details.bio : '',
     otherName: details?.otherName ? details.otherName : '',
-    job: details?.job ? details.job : 'Web Developer',
-    workplace: details?.workplace ? details.workplace : 'Google',
-    highschool: details?.highschool ? details.highschool : 'Cambridge',
-    collage: details?.collage ? details.collage : 'Harvard',
-    currentCity: details?.currentCity ? details.currentCity : 'L.A',
-    hometown: details?.hometown ? details.hometown : 'L.A hometown',
+    job: details?.job ? details.job : '',
+    workplace: details?.workplace ? details.workplace : '',
+    highschool: details?.highschool ? details.highschool : '',
+    collage: details?.collage ? details.collage : '',
+    currentCity: details?.currentCity ? details.currentCity : '',
+    hometown: details?.hometown ? details.hometown : '',
     relationShip: details?.relationShip ? details.relationShip : 'Single',
-    instagram: details?.instagram ? details.instagram : 'linuxxmann77',
+    instagram: details?.instagram ? details.instagram : '',
   };
 
   const [infos, setInfos] = useState(initialDetails);
-  const {
-    bio,
-    otherName,
-    job,
-    workplace,
-    highschool,
-    collage,
-    currentCity,
-    hometown,
-    relationShip,
-    instagram,
-  } = infos;
-  console.log(infos);
+
+  const [showBio, setShowBio] = useState(false);
+  const [max, setMax] = useState(infos?.bio ? 100 - infos?.bio.length : 100);
+
+  useEffect(() => {
+    setInfos(details);
+  }, [details]);
+
+  const handleBioChange = (e) => {
+    setInfos({ ...infos, bio: e.target.value });
+    setMax(100 - e.target.value.length);
+  };
+
+  const updateUserDetails = async () => {
+    try {
+      const result = await updateDetails(infos, token);
+      setInfos(result);
+      setForceRenderPage((prev) => !prev);
+      setTimeout(() => {
+        setShowBio(false);
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="profile_card">
       <div className="profile_card_header">Intro</div>
-      {job && workplace ? (
-        <div className="info_profile">
-          <img src="../../../icons/job.png" alt="job" />
-          works as {job} at <b>{workplace}</b>
+      {infos?.bio && !showBio && (
+        <div className="info_col">
+          <span className="info_text">{initialDetails?.bio}</span>
+          {!visitor && (
+            <button
+              className="gray_btn hover1"
+              onClick={() => setShowBio(true)}
+            >
+              Edit Bio
+            </button>
+          )}
         </div>
-      ) : job && !workplace ? (
+      )}
+      {showBio && (
+        <Bio
+          bio={infos?.bio}
+          handleBioChange={handleBioChange}
+          max={max}
+          setShowBio={setShowBio}
+          updateUserDetails={updateUserDetails}
+        />
+      )}
+      {infos?.job && infos?.workplace ? (
         <div className="info_profile">
           <img src="../../../icons/job.png" alt="job" />
-          works as {job}
+          works as {infos?.job} at <b>{infos?.workplace}</b>
+        </div>
+      ) : infos?.job && !infos?.workplace ? (
+        <div className="info_profile">
+          <img src="../../../icons/job.png" alt="job" />
+          works as {infos?.job}
         </div>
       ) : (
-        workplace &&
-        !job && (
+        infos?.workplace &&
+        !infos?.job && (
           <div className="info_profile">
             <img src="../../../icons/job.png" alt="job" />
-            works at <b>{workplace}</b>
+            works at <b>{infos?.workplace}</b>
           </div>
         )
       )}
-      {relationShip && (
+      {infos?.relationShip && (
         <div className="info_profile">
           <img src="../../../icons/relationship.png" alt="relationShip" />
-          {relationShip}
+          {infos?.relationShip}
         </div>
       )}
-      {collage && (
+      {infos?.collage && (
         <div className="info_profile">
           <img src="../../../icons/studies.png" alt="college" />
-          studies at <b>{collage}</b>
+          studies at <b>{infos?.collage}</b>
         </div>
       )}
 
-      {highschool && (
+      {infos?.highschool && (
         <div className="info_profile">
           <img src="../../../icons/studies.png" alt="highschool" />
-          studies at <b>{highschool}</b>
+          studies at <b>{infos?.highschool}</b>
         </div>
       )}
-      {currentCity && (
+      {infos?.currentCity && (
         <div className="info_profile">
           <img src="../../../icons/home.png" alt="currentCity" />
-          lives in <b>{currentCity}</b>
+          lives in <b>{infos?.currentCity}</b>
         </div>
       )}
-      {hometown && (
+      {infos?.hometown && (
         <div className="info_profile">
           <img src="../../../icons/home.png" alt="hometown" />
-          From <b>{hometown}</b>
+          From <b>{infos?.hometown}</b>
         </div>
       )}
-      {instagram && (
+      {infos?.instagram && (
         <div className="info_profile">
           <img src="../../../icons/instagram.png" alt="instagram" />
           <a
-            href={`https://instagram.com/${instagram}`}
+            href={`https://instagram.com/${infos?.instagram}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {instagram}
+            {infos?.instagram}
           </a>
         </div>
+      )}
+
+      {!visitor && (
+        <button className="gray_btn hover1 w100">Edit Details</button>
+      )}
+      {!visitor && (
+        <button className="gray_btn hover1 w100">Add Hobbies</button>
+      )}
+      {!visitor && (
+        <button className="gray_btn hover1 w100">Add Featured</button>
       )}
     </div>
   );

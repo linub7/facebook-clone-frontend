@@ -115,7 +115,12 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
-                <Intro details={profile?.details} />
+                <Intro
+                  details={profile?.details}
+                  visitor={visitor}
+                  token={user.token}
+                  setForceRenderPage={setForceRenderPage}
+                />
                 <Photos
                   userName={userName}
                   token={user.token}
