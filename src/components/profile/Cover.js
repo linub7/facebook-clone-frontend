@@ -1,11 +1,26 @@
+import { createPost } from 'functions/post';
+import { uploadImages } from 'functions/uploadImages';
+import { updateCoverPhoto } from 'functions/user';
 import useClickOutside from 'helpers/clickOutside';
 import getCroppedImg from 'helpers/getCroppedImg';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { PulseLoader } from 'react-spinners';
 
-const Cover = ({ cover, setShowCoverMenu, showCoverMenu, visitor }) => {
+const Cover = ({
+  cover,
+  setShowCoverMenu,
+  showCoverMenu,
+  visitor,
+  user,
+  setForceRenderPage,
+}) => {
   const [coverPicture, setCoverPicture] = useState('');
+  const [pageRender, setPageRender] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -15,6 +30,9 @@ const Cover = ({ cover, setShowCoverMenu, showCoverMenu, visitor }) => {
   const coverMenuRef = useRef(null);
   const coverInputRef = useRef(null);
   const coverRef = useRef(null);
+  const coverPhotoRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   useClickOutside(coverMenuRef, () => setShowCoverMenu(false));
 
@@ -69,6 +87,50 @@ const Cover = ({ cover, setShowCoverMenu, showCoverMenu, visitor }) => {
     setWidth(coverRef.current.clientWidth);
   }, [window.innerWidth]);
 
+  const updateCoverPicture = async () => {
+    try {
+      setLoading(true);
+      const img = await getCroppedImage();
+      const blob = await fetch(img).then((b) => b.blob());
+      const path = `${user.username}/cover_pictures`;
+      let formData = new FormData();
+      formData.append('file', blob);
+      formData.append('path', path);
+      const res = await uploadImages(formData, path, user.token);
+      const updatedPhoto = await updateCoverPhoto(res[0].url, user.token);
+      if (updatedPhoto === 'ok') {
+        const newPost = await createPost(
+          'cover',
+          null,
+          null,
+          res,
+          user.id,
+          user.token
+        );
+
+        if (newPost === 'ok') {
+          setLoading(false);
+          setCoverPicture('');
+          coverPhotoRef.current.src = `${res[0].url}`;
+          setForceRenderPage((prev) => !prev);
+          // coverRef.current.style.backgroundImage = `url(${res[0].url})`;
+          // Cookies.set('user', JSON.stringify({ ...user, cover: res[0].url }));
+          // dispatch({ type: 'UPDATE_COVER', payload: res[0].url });
+          // setShow(false);
+        } else {
+          setError(newPost);
+          setLoading(false);
+        }
+      } else {
+        setError(updatedPhoto);
+        setLoading(false);
+      }
+    } catch (error) {
+      setError(error.response.data.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="profile_cover" ref={coverRef}>
       {coverPicture && (
@@ -78,8 +140,15 @@ const Cover = ({ cover, setShowCoverMenu, showCoverMenu, visitor }) => {
             Your Cover Photo is public
           </div>
           <div className="save_changes_right">
-            <button className="blue_btn opacity_btn">Cancel</button>
-            <button className="blue_btn">Save Changes</button>
+            <button
+              className="blue_btn opacity_btn"
+              onClick={() => setCoverPicture('')}
+            >
+              Cancel
+            </button>
+            <button className="blue_btn" onClick={updateCoverPicture}>
+              {loading ? <PulseLoader color="#fff" size={5} /> : 'Save Changes'}
+            </button>
           </div>
         </div>
       )}
@@ -118,7 +187,9 @@ const Cover = ({ cover, setShowCoverMenu, showCoverMenu, visitor }) => {
           />
         </div>
       )}
-      {cover && <img src={cover} alt="cover" className="cover" />}
+      {cover && !coverPicture && (
+        <img src={cover} alt="cover" className="cover" ref={coverPhotoRef} />
+      )}
       <div className="update_cover_wrapper">
         {!visitor && (
           <div

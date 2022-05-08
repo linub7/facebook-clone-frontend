@@ -23,6 +23,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   const navigate = useNavigate();
   const [showCoverMenu, setShowCoverMenu] = useState(false);
   const [photos, setPhotos] = useState([]);
+  const [forceRenderPage, setForceRenderPage] = useState(false);
 
   const [{ loading, profile, error }, dispatch] = useReducer(profileReducer, {
     loading: false,
@@ -32,7 +33,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
 
   useEffect(() => {
     getProfile();
-  }, [userName]);
+  }, [userName, forceRenderPage]);
 
   const visitor = userName === user.username ? false : true;
 
@@ -90,6 +91,8 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
       <div className="profile_top">
         <div className="profile_container">
           <Cover
+            setForceRenderPage={setForceRenderPage}
+            user={user}
             cover={profile?.cover}
             visitor={visitor}
             showCoverMenu={showCoverMenu}

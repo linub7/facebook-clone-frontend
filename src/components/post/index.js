@@ -90,12 +90,20 @@ const Post = ({ post, user: ownUser, profile }) => {
       ) : type === 'profilePicture' ? (
         <div className="post_profile_wrap">
           <div className="post_updated_bg">
-            {user.cover && <img src={user.cover} alt="cover" />}
+            {user.cover && (
+              <img
+                src={user.cover}
+                alt="cover"
+                className="post_updated_bg_cover"
+              />
+            )}
           </div>
           <img src={images[0].url} alt="" className="post_updated_picture" />
         </div>
       ) : (
-        <div className="post_cover_wrap">post cover wrap</div>
+        <div className="post_cover_wrap">
+          <img src={images[0].url} alt="cover" />
+        </div>
       )}
       <div className="post_infos">
         <div className="reacts_count">

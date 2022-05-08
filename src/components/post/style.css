@@ -465,6 +465,12 @@
   background: var(--bg-third);
 }
 
+.post_updated_bg .post_updated_bg_cover {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
 .post_updated_picture {
   z-index: 1;
   width: 420px;
@@ -472,6 +478,16 @@
   border-radius: 50%;
   object-fit: cover;
   bottom: 2px solid var(--bg-primary);
+}
+.post_cover_wrap {
+  width: 100%;
+  height: 350px;
+}
+
+.post_cover_wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 /*------Post menu------*/
 @media (max-width: 965px) {

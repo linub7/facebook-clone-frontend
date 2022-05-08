@@ -16,6 +16,9 @@ export function userReducer(state = initialValues, action) {
     case 'UPDATE_PICTURE':
       return { ...state, picture: payload };
 
+    case 'UPDATE_COVER':
+      return { ...state, cover: payload };
+
     case 'LOGOUT':
       return null;
 
