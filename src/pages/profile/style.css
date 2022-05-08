@@ -413,6 +413,32 @@
   width: 160px;
 }
 
+.select_coverBox {
+  width: 570px !important;
+  max-width: 80vw;
+}
+
+.select_coverBox_links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 5px 15px;
+}
+
+.select_coverBox_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 5px 0 10px 0;
+  cursor: pointer;
+}
+
+.select_coverBox_link:first-of-type {
+  color: var(--blue-color);
+  border-bottom: 3px solid var(--blue-color);
+}
+
 /* -- Cover -- */
 
 /*-- Menu --*/

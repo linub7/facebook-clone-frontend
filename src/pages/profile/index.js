@@ -97,6 +97,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             visitor={visitor}
             showCoverMenu={showCoverMenu}
             setShowCoverMenu={setShowCoverMenu}
+            photos={photos.resources}
           />
           <ProfilePictureInfos
             profile={profile}

@@ -5,11 +5,11 @@ import useClickOutside from 'helpers/clickOutside';
 import getCroppedImg from 'helpers/getCroppedImg';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-easy-crop';
-import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
 import { PulseLoader } from 'react-spinners';
+import OldCovers from './OldCovers';
 
 const Cover = ({
+  photos,
   cover,
   setShowCoverMenu,
   showCoverMenu,
@@ -18,9 +18,9 @@ const Cover = ({
   setForceRenderPage,
 }) => {
   const [coverPicture, setCoverPicture] = useState('');
-  const [pageRender, setPageRender] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showOldCovers, setShowOldCovers] = useState(true);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -31,8 +31,6 @@ const Cover = ({
   const coverInputRef = useRef(null);
   const coverRef = useRef(null);
   const coverPhotoRef = useRef(null);
-
-  const dispatch = useDispatch();
 
   useClickOutside(coverMenuRef, () => setShowCoverMenu(false));
 
@@ -202,7 +200,10 @@ const Cover = ({
         )}
         {showCoverMenu && (
           <div className="open_cover_menu" ref={coverMenuRef}>
-            <div className="open_cover_menu_item hover1">
+            <div
+              className="open_cover_menu_item hover1"
+              onClick={() => setShowOldCovers(true)}
+            >
               <i className="photo_icon"></i>
               Select Photo
             </div>
@@ -216,6 +217,14 @@ const Cover = ({
           </div>
         )}
       </div>
+      {showOldCovers && (
+        <OldCovers
+          photos={photos}
+          setCoverPicture={setCoverPicture}
+          username={user.username}
+          setShowOldCovers={setShowOldCovers}
+        />
+      )}
     </div>
   );
 };
