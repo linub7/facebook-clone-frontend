@@ -1,6 +1,7 @@
 import { updateDetails } from 'functions/user';
 import { useEffect, useState } from 'react';
 import Bio from './Bio';
+import EditDetails from './EditDetails';
 import './style.css';
 const Intro = ({ details, visitor, token, setForceRenderPage }) => {
   const initialDetails = {
@@ -12,7 +13,7 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
     collage: details?.collage ? details.collage : '',
     currentCity: details?.currentCity ? details.currentCity : '',
     hometown: details?.hometown ? details.hometown : '',
-    relationShip: details?.relationShip ? details.relationShip : 'Single',
+    relationShip: details?.relationShip ? details.relationShip : '',
     instagram: details?.instagram ? details.instagram : '',
   };
 
@@ -20,14 +21,20 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
 
   const [showBio, setShowBio] = useState(false);
   const [max, setMax] = useState(infos?.bio ? 100 - infos?.bio.length : 100);
+  const [visibleEdit, setVisibleEdit] = useState(1);
 
   useEffect(() => {
     setInfos(details);
   }, [details]);
 
-  const handleBioChange = (e) => {
-    setInfos({ ...infos, bio: e.target.value });
-    setMax(100 - e.target.value.length);
+  console.log(infos);
+
+  const handleChange = (e) => {
+    const {
+      target: { name, value },
+    } = e;
+    setInfos({ ...infos, [name]: value });
+    setMax(100 - value.length);
   };
 
   const updateUserDetails = async () => {
@@ -58,13 +65,23 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
           )}
         </div>
       )}
+      {!details && !showBio && !visitor && (
+        <button
+          className="gray_btn hover1 w100"
+          onClick={() => setShowBio(true)}
+        >
+          Add Bio
+        </button>
+      )}
       {showBio && (
         <Bio
           bio={infos?.bio}
-          handleBioChange={handleBioChange}
+          handleValueChange={handleChange}
           max={max}
           setShowBio={setShowBio}
           updateUserDetails={updateUserDetails}
+          placeholder="Add Bio"
+          name={'bio'}
         />
       )}
       {infos?.job && infos?.workplace ? (
@@ -131,8 +148,14 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
       )}
 
       {!visitor && (
-        <button className="gray_btn hover1 w100">Edit Details</button>
+        <button
+          className="gray_btn hover1 w100"
+          onClick={() => setVisibleEdit(true)}
+        >
+          Edit Details
+        </button>
       )}
+      {visibleEdit && !visitor && <EditDetails details={details} />}
       {!visitor && (
         <button className="gray_btn hover1 w100">Add Hobbies</button>
       )}
