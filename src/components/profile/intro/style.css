@@ -70,7 +70,7 @@
 
 .flex .blue_btn {
   height: 35px !important;
-  width: 110px;
+  width: 100px;
 }
 
 .infosBox {
@@ -138,4 +138,10 @@
   margin: 10px 0;
   padding: 0 10px;
   border-radius: 5px;
+}
+
+@media (max-width: 825px) {
+  .infosBox {
+    width: 96% !important;
+  }
 }

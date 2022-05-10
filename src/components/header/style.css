@@ -551,7 +551,7 @@ header {
   }
   .all_right {
     position: relative;
-    width: 100%;
+    width: 90%;
     padding-left: 3rem;
     margin-bottom: 1rem;
   }
@@ -561,10 +561,14 @@ header {
     display: none;
   }
   .mmenu {
-    width: 340px;
+    width: 310px;
   }
   .all_menu {
-    left: -12.5rem;
+    left: -8.5rem;
+  }
+
+  .search_area {
+    width: 310px;
   }
 }
 /*---responsive----------*/

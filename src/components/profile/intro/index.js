@@ -27,8 +27,6 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
     setInfos(details);
   }, [details]);
 
-  console.log(infos);
-
   const handleChange = (e) => {
     const {
       target: { name, value },

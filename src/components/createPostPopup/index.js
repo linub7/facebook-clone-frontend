@@ -99,7 +99,7 @@ const CreatePostPopup = ({ user, setVisible, setTmpPost }) => {
   };
   return (
     <div className="blur">
-      <div className="postBox" ref={createPostPopupRef}>
+      <div className="postBox scrollbar" ref={createPostPopupRef}>
         {error && <PostError error={error} setError={setError} />}
         <div className="box_header">
           <div className="small_circle" onClick={() => setVisible(false)}>

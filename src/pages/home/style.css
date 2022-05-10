@@ -171,6 +171,37 @@
     width: 20px;
   }
 }
+
+@media (max-width: 400px) {
+  .stories,
+  .createPost,
+  .profile_card,
+  .post,
+  .send_verification {
+    width: 96% !important;
+    margin: 1rem auto;
+  }
+
+  .home_middle,
+  .createPost,
+  .post {
+    margin: 1rem auto;
+    width: 90%;
+  }
+
+  .send_verification {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .stories {
+    grid-template-columns: repeat(6, 13vw);
+  }
+
+  .home_middle {
+    margin: 56px auto;
+  }
+}
 /*-----Activate popup----*/
 .popup {
   position: relative;

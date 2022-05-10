@@ -10,6 +10,8 @@
   width: 500px;
   border-radius: 5px;
   overflow-y: auto;
+  overflow-x: hidden;
+  height: 64vh;
 }
 
 .box_header {
@@ -83,7 +85,7 @@
   resize: none;
   padding: 5px 15px;
   margin-bottom: 10px;
-  width: 470px;
+  width: 100%;
   margin-left: 1px;
   font-family: inherit;
   font-size: 24px;
@@ -468,6 +470,10 @@
 }
 /* -- Post Error --  */
 
+.left_0 {
+  left: 0;
+}
+
 @keyframes anim {
   0% {
     width: 0;
@@ -475,5 +481,59 @@
 
   100% {
     width: 100%;
+  }
+}
+
+@media (max-width: 750px) {
+  .rlmove {
+    right: 10px;
+  }
+}
+@media (max-width: 565px) {
+  .postBox {
+    width: 95%;
+    overflow-x: hidden;
+  }
+
+  .post {
+    width: 80%;
+    overflow-x: hidden;
+  }
+
+  .postBackgrounds img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 415px) {
+  .preview_actions {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile_text {
+    width: 50%;
+  }
+  .addTo_text {
+    display: none;
+  }
+
+  .comment_emoji_picker {
+    width: 90%;
+  }
+
+  .images_input {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 300px) {
+  .post_input {
+    font-size: 17px;
+  }
+
+  .addToYourPost {
+    justify-content: center;
   }
 }

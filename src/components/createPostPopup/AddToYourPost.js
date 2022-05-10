@@ -3,7 +3,7 @@ import { Dots, Feeling, Photo } from 'svg';
 const AddToYourPost = ({ setShowPreview }) => {
   return (
     <div className="addToYourPost">
-      <div className="addTo_text">Add to your posr</div>
+      <div className="addTo_text">Add to your post</div>
       <div
         className="post_header_right hover1"
         onClick={() => setShowPreview(true)}

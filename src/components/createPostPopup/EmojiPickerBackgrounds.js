@@ -1,5 +1,6 @@
 import Picker from 'emoji-picker-react';
 import { useEffect, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 const EmojiPickerBackgrounds = ({
   text,
@@ -53,6 +54,10 @@ const EmojiPickerBackgrounds = ({
     backgroundRef.current.classList.remove('bgHandler');
   };
 
+  const sm = useMediaQuery({
+    query: '(max-width: 550px)',
+  });
+
   return (
     <div className={type2 ? 'images_input' : ''}>
       <div className={`${!type2 ? 'flex_center' : ''}`} ref={backgroundRef}>
@@ -60,7 +65,9 @@ const EmojiPickerBackgrounds = ({
           ref={textRef}
           maxLength="250"
           value={text}
-          className={`post_input ${type2 ? 'input2' : ''}`}
+          className={`post_input ${type2 ? 'input2' : ''} ${
+            sm && !background ? 'left_0' : ''
+          }`}
           style={{
             paddingTop: `${
               background

@@ -473,11 +473,29 @@
     grid-template-columns: 1fr;
     width: 95%;
   }
+
+  .profile_grid .createPost {
+    width: 100% !important;
+  }
+
+  .bottom_container {
+    padding: 5px;
+  }
 }
 
 @media (max-width: 640px) {
   .p10_dots {
     display: none;
+  }
+
+  .profile_menu_wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 510px) {
+  .update_cover_wrapper {
+    bottom: 3rem;
   }
 }
 
