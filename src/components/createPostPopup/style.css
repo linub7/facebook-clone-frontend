@@ -9,6 +9,7 @@
   min-height: 220px;
   width: 500px;
   border-radius: 5px;
+  overflow-y: auto;
 }
 
 .box_header {

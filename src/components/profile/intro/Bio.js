@@ -8,18 +8,34 @@ const Bio = ({
   updateUserDetails,
   placeholder,
   name,
+  detail,
+  rel,
 }) => {
   return (
     <div className="add_bio_wrap">
-      <textarea
-        placeholder={placeholder}
-        name={name}
-        maxLength={100}
-        value={value}
-        className="textarea_blue details_input"
-        onChange={handleValueChange}
-      ></textarea>
-      <div className="remaining">{max} Character remaining</div>
+      {rel ? (
+        <select
+          className="select_rel"
+          name={name}
+          value={value}
+          onChange={handleValueChange}
+        >
+          <option value="Single">Single</option>
+          <option value="In a relationShip">In a relationShip</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+        </select>
+      ) : (
+        <textarea
+          placeholder={placeholder}
+          name={name}
+          maxLength={100}
+          value={value}
+          className="textarea_blue details_input"
+          onChange={handleValueChange}
+        ></textarea>
+      )}
+      {!detail && <div className="remaining">{max} Character remaining</div>}
       <div className="flex">
         <div className="flex flex_left">
           <i className="public_icon"></i>
@@ -29,7 +45,13 @@ const Bio = ({
           <button className="gray_btn" onClick={() => setShowBio(false)}>
             Cancel
           </button>
-          <button className="blue_btn" onClick={updateUserDetails}>
+          <button
+            className="blue_btn"
+            onClick={() => {
+              updateUserDetails();
+              setShowBio(false);
+            }}
+          >
             Save
           </button>
         </div>

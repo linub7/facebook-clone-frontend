@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import Bio from './Bio';
 
-const Detail = ({ header, img, value, placeholder, name }) => {
-  const [showEdit, setShowEdit] = useState(true);
+const Detail = ({
+  header,
+  img,
+  value,
+  placeholder,
+  name,
+  handleChange,
+  updateUserDetails,
+  rel,
+}) => {
+  const [showEdit, setShowEdit] = useState(false);
   return (
     <div>
-      <div className="details_header">{header}</div>
-      <div className="add_details_flex">
+      <div className="add_details_flex" onClick={() => setShowEdit(true)}>
         {value ? (
           <div className="info_profile no_underline">
             <img src={`../../../icons/${img}.png`} alt={header} />
@@ -20,7 +28,19 @@ const Detail = ({ header, img, value, placeholder, name }) => {
           </>
         )}
       </div>
-      {showEdit && <Bio placeholder={placeholder} name={name} />}
+      {showEdit && (
+        <Bio
+          placeholder={placeholder}
+          name={name}
+          handleValueChange={handleChange}
+          updateUserDetails={updateUserDetails}
+          detail
+          setShowBio={setShowEdit}
+          showEdit={showEdit}
+          setShowEdit={setShowEdit}
+          rel={rel}
+        />
+      )}
     </div>
   );
 };

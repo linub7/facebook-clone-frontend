@@ -25,6 +25,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   const [showCoverMenu, setShowCoverMenu] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [forceRenderPage, setForceRenderPage] = useState(false);
+  const [othername, setOthername] = useState('');
 
   const [{ loading, profile, error }, dispatch] = useReducer(profileReducer, {
     loading: false,
@@ -35,6 +36,14 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
   useEffect(() => {
     getProfile();
   }, [userName, forceRenderPage]);
+
+  useEffect(() => {
+    setOthername(profile?.details?.otherName);
+
+    return () => {
+      setOthername('');
+    };
+  }, [profile]);
 
   const visitor = userName === user.username ? false : true;
 
@@ -105,6 +114,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             visitor={visitor}
             photos={photos.resources}
             username={user.username}
+            othername={othername}
           />
           <ProfileMenu />
         </div>

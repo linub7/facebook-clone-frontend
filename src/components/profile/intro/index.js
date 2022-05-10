@@ -21,7 +21,7 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
 
   const [showBio, setShowBio] = useState(false);
   const [max, setMax] = useState(infos?.bio ? 100 - infos?.bio.length : 100);
-  const [visibleEdit, setVisibleEdit] = useState(1);
+  const [visibleEdit, setVisibleEdit] = useState(false);
 
   useEffect(() => {
     setInfos(details);
@@ -44,7 +44,7 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
       setForceRenderPage((prev) => !prev);
       setTimeout(() => {
         setShowBio(false);
-      }, 2000);
+      }, 3000);
     } catch (error) {
       console.log(error);
     }
@@ -155,7 +155,15 @@ const Intro = ({ details, visitor, token, setForceRenderPage }) => {
           Edit Details
         </button>
       )}
-      {visibleEdit && !visitor && <EditDetails details={details} />}
+      {visibleEdit && !visitor && (
+        <EditDetails
+          details={details}
+          handleChange={handleChange}
+          updateUserDetails={updateUserDetails}
+          setVisibleEdit={setVisibleEdit}
+          visibleEdit={visibleEdit}
+        />
+      )}
       {!visitor && (
         <button className="gray_btn hover1 w100">Add Hobbies</button>
       )}

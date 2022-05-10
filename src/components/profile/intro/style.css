@@ -13,6 +13,7 @@
 
 .info_text {
   word-break: break-word;
+  text-align: start;
 }
 
 .info_col {
@@ -98,8 +99,9 @@
 
 .details_header {
   margin-top: 15px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 20px;
+  color: var(--color-primary);
 }
 
 .add_details_flex {
@@ -126,4 +128,14 @@
 
 .no_underline:hover {
   text-decoration: none;
+}
+
+.select_rel {
+  height: 30px;
+  outline: none;
+  border: none;
+  background: var(--bg-secondary);
+  margin: 10px 0;
+  padding: 0 10px;
+  border-radius: 5px;
 }
