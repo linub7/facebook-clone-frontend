@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Friends = ({ friends }) => {
   return (
     <div className="profile_card">
@@ -14,11 +16,18 @@ const Friends = ({ friends }) => {
       </div>
       <div className="profile_card_grid">
         {friends &&
-          friends
-            .slice(0.9)
-            .map((friend, index) => (
-              <div className="profile_photo_card" key={index}></div>
-            ))}
+          friends.slice(0.9).map((friend, index) => (
+            <Link
+              to={`/profile/${friend.username}`}
+              className="profile_photo_card"
+              key={index}
+            >
+              <img src={friend.picture} alt={friend.username} />
+              <span>
+                {friend.first_name} {friend.last_name}
+              </span>
+            </Link>
+          ))}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Friendship from './Friendship';
 import ProfilePicture from './profilePicture';
 
@@ -46,8 +47,30 @@ const ProfilePictureInfos = ({
             {profile.first_name} {profile.last_name}
             {/* <div className="othername">{othername}</div> */}
           </div>
-          <div className="profile_friend_count"></div>
-          <div className="profile_friend_imgs"></div>
+          <div className="profile_friend_count">
+            <div className="profile_card_count">
+              {profile?.friends?.length === 0
+                ? ''
+                : profile?.friends?.length === 1
+                ? '1 Friend'
+                : `${profile?.friends?.length} Friends`}
+            </div>
+          </div>
+          <div className="profile_friend_imgs">
+            {profile?.friends &&
+              profile.friends.slice(0, 6).map((friend, index) => (
+                <Link to={`/profile/${friend.username}`} key={index}>
+                  <img
+                    src={friend?.picture}
+                    alt={friend.username}
+                    style={{
+                      transform: `translateX(${-index * 7}px)`,
+                      zIndex: `${index}`,
+                    }}
+                  />
+                </Link>
+              ))}
+          </div>
         </div>
       </div>
       {visitor ? (

@@ -14,8 +14,6 @@ import { useSelector } from 'react-redux';
 const Friendship = ({ initialFriendShip, profileId, setForceRenderPage }) => {
   const [friendShip, setFriendShip] = useState(initialFriendShip);
 
-  console.log(initialFriendShip);
-
   useEffect(() => {
     setFriendShip(initialFriendShip);
   }, [initialFriendShip]);
