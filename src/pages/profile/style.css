@@ -510,8 +510,18 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 405px) {
   .profile_menu a {
     font-size: 12px;
+  }
+
+  .friendship {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 900px) {
+  .friendship {
+    transform: translateX(2rem);
   }
 }

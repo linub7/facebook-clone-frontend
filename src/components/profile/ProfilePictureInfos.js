@@ -8,6 +8,7 @@ const ProfilePictureInfos = ({
   photos,
   username,
   othername,
+  setForceRenderPage,
 }) => {
   const [show, setShow] = useState(false);
   const profileRef = useRef(null);
@@ -43,14 +44,18 @@ const ProfilePictureInfos = ({
         <div className="profile_w_col">
           <div className="profile_name">
             {profile.first_name} {profile.last_name}
-            <div className="othername">{othername}</div>
+            {/* <div className="othername">{othername}</div> */}
           </div>
           <div className="profile_friend_count"></div>
           <div className="profile_friend_imgs"></div>
         </div>
       </div>
       {visitor ? (
-        <Friendship friendShip={profile?.friendShip} />
+        <Friendship
+          initialFriendShip={profile?.friendShip}
+          profileId={profile._id}
+          setForceRenderPage={setForceRenderPage}
+        />
       ) : (
         <div className="profile_w_right">
           <div className="blue_btn">

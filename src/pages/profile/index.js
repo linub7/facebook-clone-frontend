@@ -32,7 +32,6 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
     profile: {},
     error: '',
   });
-  console.log(profile);
 
   useEffect(() => {
     getProfile();
@@ -116,6 +115,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
             photos={photos.resources}
             username={user.username}
             othername={othername}
+            setForceRenderPage={setForceRenderPage}
           />
           <ProfileMenu />
         </div>
