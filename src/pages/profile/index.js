@@ -32,6 +32,7 @@ const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
     profile: {},
     error: '',
   });
+  console.log(profile);
 
   useEffect(() => {
     getProfile();

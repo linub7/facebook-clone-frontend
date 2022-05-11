@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import Friendship from './Friendship';
 import ProfilePicture from './profilePicture';
 
 const ProfilePictureInfos = ({
@@ -48,7 +49,9 @@ const ProfilePictureInfos = ({
           <div className="profile_friend_imgs"></div>
         </div>
       </div>
-      {!visitor && (
+      {visitor ? (
+        <Friendship friendShip={profile?.friendShip} />
+      ) : (
         <div className="profile_w_right">
           <div className="blue_btn">
             <img src="../../../icons/plus.png" alt="plus" className="invert" />

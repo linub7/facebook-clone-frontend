@@ -439,6 +439,13 @@
   border-bottom: 3px solid var(--blue-color);
 }
 
+.friendship {
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 /* -- Cover -- */
 
 /*-- Menu --*/
@@ -480,6 +487,10 @@
 
   .bottom_container {
     padding: 5px;
+  }
+
+  .friendship {
+    transform: translateY(-4rem);
   }
 }
 
