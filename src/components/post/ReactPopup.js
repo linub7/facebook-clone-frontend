@@ -1,3 +1,6 @@
+import { reactPost } from 'functions/post';
+import { useSelector } from 'react-redux';
+
 const reactsArray = [
   {
     name: 'like',
@@ -16,11 +19,15 @@ const reactsArray = [
     image: '../../../reacts/wow.gif',
   },
   {
+    name: 'sad',
+    image: '../../../reacts/sad.gif',
+  },
+  {
     name: 'angry',
     image: '../../../reacts/angry.gif',
   },
 ];
-const ReactPopup = ({ visible, setVisible }) => {
+const ReactPopup = ({ visible, setVisible, handleReact }) => {
   return (
     <>
       {visible && (
@@ -38,7 +45,11 @@ const ReactPopup = ({ visible, setVisible }) => {
           }}
         >
           {reactsArray.map((react, index) => (
-            <div className="react" key={index}>
+            <div
+              className="react"
+              key={index}
+              onClick={() => handleReact(react.name)}
+            >
               <img src={react.image} alt={react.name} />
             </div>
           ))}

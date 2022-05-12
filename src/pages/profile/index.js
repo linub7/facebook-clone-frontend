@@ -17,7 +17,7 @@ import Photos from 'components/profile/Photos';
 import Friends from 'components/profile/Friends';
 import Intro from 'components/profile/intro';
 
-const Profile = ({ visible, setVisible, setTmpPost, tmpPost }) => {
+const Profile = ({ visible, setVisible, setTmpPost }) => {
   const { username } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
   const userName = username === undefined ? user.username : username;

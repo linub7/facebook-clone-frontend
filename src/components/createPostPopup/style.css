@@ -4,14 +4,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--bg-primary);
-  box-shadow: 0 12px 20px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-2),
+  box-shadow: 0 12px 28px 0 var(--shadow-1), 0 2px 4px 0 var(--shadow-2),
     inset 0 0 0 1px var(--shadow-inset);
-  min-height: 220px;
+  min-height: 228px;
   width: 500px;
   border-radius: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 64vh;
 }
 
 .box_header {
@@ -107,6 +104,25 @@
   justify-content: space-between;
   padding: 10px 15px;
 }
+.post_emojis_wrap img {
+  width: 39px;
+  cursor: pointer;
+}
+.post_emojis_wrap i:hover {
+  filter: invert(80%);
+}
+.comment_emoji_picker {
+  position: absolute;
+  right: 0;
+  bottom: 2.5rem;
+}
+/* .post_emojis_wrap {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 10px 15px;
+}
 
 .post_emojis_wrap img {
   width: 39px;
@@ -121,7 +137,7 @@
   position: absolute;
   right: 0;
   bottom: 2.5rem;
-}
+} */
 
 .rlmove {
   right: -7rem;

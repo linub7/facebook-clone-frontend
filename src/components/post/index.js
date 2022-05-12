@@ -3,15 +3,55 @@ import Moment from 'react-moment';
 import './style.css';
 import { Dots, Public } from 'svg';
 import ReactPopup from './ReactPopup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateComment from './CreateComment';
 import PostMenu from './PostMenu';
+import { getReacts, reactPost } from 'functions/post';
+import { useSelector } from 'react-redux';
 
 const Post = ({ post, user: ownUser, profile }) => {
   const { user, type, createdAt, background, text, images } = post;
+  const {
+    user: { token },
+  } = useSelector((state) => ({ ...state }));
 
   const [visible, setVisible] = useState(false);
   const [postMenuVisible, setPostMenuVisible] = useState(false);
+  const [reacts, setReacts] = useState();
+  const [check, setCheck] = useState();
+  const [forcePostRender, setForcePostRender] = useState(false);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    getPostReact();
+  }, [post, forcePostRender]);
+
+  const handleReact = async (react) => {
+    try {
+      await reactPost(post?._id, react, token);
+      setForcePostRender((prev) => !prev);
+      let index = reacts.findIndex((item) => item.react === check);
+      if (index !== -1) {
+        // exists
+        setReacts([...reacts, (reacts[index].count = --reacts[index].count)]);
+        setTotal((prev) => --prev);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getPostReact = async () => {
+    try {
+      const res = await getReacts(post._id, token);
+      setReacts(res.reacts);
+      setCheck(res.check);
+      setTotal(res.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="post" style={{ width: `${profile ? '84%' : ''}` }}>
       <div className="post_header">
@@ -107,8 +147,22 @@ const Post = ({ post, user: ownUser, profile }) => {
       )}
       <div className="post_infos">
         <div className="reacts_count">
-          <div className="react_counts_imgs"></div>
-          <div className="react_counts_num"></div>
+          <div className="reacts_count_imgs">
+            {reacts &&
+              reacts
+                .slice(0, 3)
+                .map(
+                  (react, index) =>
+                    react.count > 0 && (
+                      <img
+                        src={`../../../reacts/${react.react}.svg`}
+                        alt={react.react}
+                        key={index}
+                      />
+                    )
+                )}
+          </div>
+          <div className="reacts_count_num">{total > 0 && total}</div>
         </div>
         <div className="to_right">
           <div className="comments_count">13 comment</div>
@@ -116,7 +170,11 @@ const Post = ({ post, user: ownUser, profile }) => {
         </div>
       </div>
       <div className="post_actions">
-        <ReactPopup visible={visible} setVisible={setVisible} />
+        <ReactPopup
+          visible={visible}
+          setVisible={setVisible}
+          handleReact={handleReact}
+        />
         <div
           className="post_action hover1"
           onMouseOver={() => {
@@ -129,9 +187,41 @@ const Post = ({ post, user: ownUser, profile }) => {
               setVisible(false);
             }, 500);
           }}
+          onClick={() => handleReact(check ? check : 'like')}
         >
-          <i className="like_icon"></i>
-          <span>Like</span>
+          {check ? (
+            <img
+              src={`../../../reacts/${check}.svg`}
+              alt={`${check}`}
+              className="small_react"
+              style={{ width: '20px' }}
+            />
+          ) : (
+            <i className="like_icon"></i>
+          )}
+          <span
+            style={{
+              color: `
+          ${
+            check === 'like'
+              ? '#4267b2'
+              : check === 'love'
+              ? '#f63459'
+              : check === 'haha'
+              ? '#f7b125'
+              : check === 'wow'
+              ? '#f7b125'
+              : check === 'sad'
+              ? '#f7b125'
+              : check === 'angry'
+              ? '#e4605a'
+              : ''
+          }
+          `,
+            }}
+          >
+            {check ? check : 'Like'}
+          </span>
         </div>
         <div className="post_action hover1">
           <i className="comment_icon"></i>
