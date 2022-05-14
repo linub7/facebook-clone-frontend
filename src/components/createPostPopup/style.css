@@ -115,6 +115,7 @@
   position: absolute;
   right: 0;
   bottom: 2.5rem;
+  z-index: 9;
 }
 /* .post_emojis_wrap {
   position: relative;

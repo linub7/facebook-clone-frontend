@@ -757,6 +757,15 @@
   height: 21px;
 }
 
+.send_icon {
+  background-image: url(../../../public/icons/send.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+}
+
 .public_icon {
   background-image: url(../../../public//icons/publicpack.png);
   background-position: 0px -109px;

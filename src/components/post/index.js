@@ -6,7 +6,7 @@ import ReactPopup from './ReactPopup';
 import { useEffect, useState } from 'react';
 import CreateComment from './CreateComment';
 import PostMenu from './PostMenu';
-import { getReacts, reactPost } from 'functions/post';
+import { getReacts, reactPost, sendComment } from 'functions/post';
 import { useSelector } from 'react-redux';
 
 const Post = ({ post, user: ownUser, profile }) => {
@@ -234,7 +234,11 @@ const Post = ({ post, user: ownUser, profile }) => {
       </div>
       <div className="comments_wrap">
         <div className="comments_order"></div>
-        <CreateComment user={ownUser} />
+        <CreateComment
+          user={ownUser}
+          postId={post._id}
+          setForcePostRender={setForcePostRender}
+        />
       </div>
       {postMenuVisible && (
         <PostMenu

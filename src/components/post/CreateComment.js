@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import Picker from 'emoji-picker-react';
+import { sendComment } from 'functions/post';
+import dataURItoBlob from 'helpers/dataURItoBlog';
+import { uploadImages } from 'functions/uploadImages';
+import PuffLoader from 'react-spinners/PuffLoader';
 
-const CreateComment = ({ user }) => {
+const CreateComment = ({ user, postId, setForcePostRender }) => {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
   const [comment, setComment] = useState('');
   const [commentImage, setCommentImage] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const textRef = useRef(null);
   const imageInput = useRef(null);
@@ -26,7 +31,6 @@ const CreateComment = ({ user }) => {
 
   const handleImage = (e) => {
     let file = e.target.files[0];
-    console.log(file);
     if (
       file.type !== 'image/jpeg' &&
       file.type !== 'image/jpg' &&
@@ -46,6 +50,36 @@ const CreateComment = ({ user }) => {
     reader.onload = (event) => {
       setCommentImage(event.target.result);
     };
+  };
+
+  const handleSendComment = async () => {
+    if (commentImage !== '') {
+      setLoading(true);
+      const img = dataURItoBlob(commentImage);
+      const path = `${user.username}/post_images/${postId}/comments`;
+      let formData = new FormData();
+      formData.append('path', path);
+      formData.append('file', img);
+
+      const imgComment = await uploadImages(formData, path, user.token);
+      const image = imgComment[0].url;
+      const res = await sendComment(postId, comment, image, user.token);
+      setForcePostRender((prev) => !prev);
+      setComment('');
+      setCommentImage('');
+      console.log(res);
+    } else {
+      const res = await sendComment(postId, comment, '', user.token);
+      setForcePostRender((prev) => !prev);
+      setComment('');
+      setLoading(false);
+    }
+  };
+
+  const handleSendCommentByEnter = async (e) => {
+    if (e.key === 'Enter') {
+      await handleSendComment();
+    }
   };
 
   return (
@@ -85,7 +119,14 @@ const CreateComment = ({ user }) => {
             ref={textRef}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            disabled={loading}
+            onKeyUp={handleSendCommentByEnter}
           />
+          {loading && (
+            <div className="comment_circle">
+              <PuffLoader size={20} color="#1876f2" loading={loading} />
+            </div>
+          )}
           <div
             className="comment_circle_icon hover2"
             onClick={() => setPicker(!picker)}
@@ -104,6 +145,14 @@ const CreateComment = ({ user }) => {
           <div className="comment_circle_icon hover2" onClick={() => {}}>
             <i className="sticker_icon"></i>
           </div>
+          <button
+            style={{ borderColor: 'transparent' }}
+            disabled={loading}
+            className="comment_circle_icon hover2"
+            onClick={handleSendComment}
+          >
+            <i className="send_icon"></i>
+          </button>
         </div>
       </div>
       {commentImage && (

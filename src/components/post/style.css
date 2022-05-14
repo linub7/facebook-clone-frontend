@@ -489,6 +489,10 @@
   height: 100%;
   object-fit: cover;
 }
+
+.comment_circle {
+  transform: translate(-25px, -9px);
+}
 /*------Post menu------*/
 @media (max-width: 965px) {
   .post {
