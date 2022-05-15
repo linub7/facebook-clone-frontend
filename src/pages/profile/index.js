@@ -151,7 +151,9 @@ const Profile = ({ visible, setVisible, setTmpPost }) => {
                         key={post._id}
                         post={post}
                         user={post.user}
+                        setForceRenderPage={setForceRenderPage}
                         profile
+                        profilePage
                       />
                     ))
                   ) : (

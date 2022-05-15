@@ -4,8 +4,18 @@ import { sendComment } from 'functions/post';
 import dataURItoBlob from 'helpers/dataURItoBlog';
 import { uploadImages } from 'functions/uploadImages';
 import PuffLoader from 'react-spinners/PuffLoader';
+import { useSelector } from 'react-redux';
 
-const CreateComment = ({ user, postId, setForcePostRender }) => {
+const CreateComment = ({
+  user,
+  postId,
+  setForcePostRender,
+  setTmpPost,
+  setForceRenderPage,
+  homePage,
+  profilePage,
+  setCount,
+}) => {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
   const [comment, setComment] = useState('');
@@ -14,6 +24,10 @@ const CreateComment = ({ user, postId, setForcePostRender }) => {
   const [error, setError] = useState('');
   const textRef = useRef(null);
   const imageInput = useRef(null);
+
+  const {
+    user: { token },
+  } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -61,16 +75,23 @@ const CreateComment = ({ user, postId, setForcePostRender }) => {
       formData.append('path', path);
       formData.append('file', img);
 
-      const imgComment = await uploadImages(formData, path, user.token);
+      const imgComment = await uploadImages(formData, path, token);
       const image = imgComment[0].url;
-      const res = await sendComment(postId, comment, image, user.token);
+      const res = await sendComment(postId, comment, image, token);
       setForcePostRender((prev) => !prev);
+      setCount((prev) => prev + 1);
+      homePage && setTmpPost((prev) => !prev);
+      profilePage && setForceRenderPage((prev) => !prev);
       setComment('');
       setCommentImage('');
       console.log(res);
+      setLoading(false);
     } else {
-      const res = await sendComment(postId, comment, '', user.token);
+      const res = await sendComment(postId, comment, '', token);
       setForcePostRender((prev) => !prev);
+      setCount((prev) => prev + 1);
+      homePage && setTmpPost((prev) => !prev);
+      profilePage && setForceRenderPage((prev) => !prev);
       setComment('');
       setLoading(false);
     }
@@ -122,11 +143,6 @@ const CreateComment = ({ user, postId, setForcePostRender }) => {
             disabled={loading}
             onKeyUp={handleSendCommentByEnter}
           />
-          {loading && (
-            <div className="comment_circle">
-              <PuffLoader size={20} color="#1876f2" loading={loading} />
-            </div>
-          )}
           <div
             className="comment_circle_icon hover2"
             onClick={() => setPicker(!picker)}
@@ -145,14 +161,20 @@ const CreateComment = ({ user, postId, setForcePostRender }) => {
           <div className="comment_circle_icon hover2" onClick={() => {}}>
             <i className="sticker_icon"></i>
           </div>
-          <button
-            style={{ borderColor: 'transparent' }}
-            disabled={loading}
-            className="comment_circle_icon hover2"
-            onClick={handleSendComment}
-          >
-            <i className="send_icon"></i>
-          </button>
+          {loading ? (
+            <div className="comment_circle">
+              <PuffLoader size={20} color="#1876f2" loading={loading} />
+            </div>
+          ) : (
+            <button
+              style={{ borderColor: 'transparent' }}
+              disabled={loading}
+              className="comment_circle_icon hover2"
+              onClick={handleSendComment}
+            >
+              <i className="send_icon"></i>
+            </button>
+          )}
         </div>
       </div>
       {commentImage && (

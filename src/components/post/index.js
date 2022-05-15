@@ -6,10 +6,19 @@ import ReactPopup from './ReactPopup';
 import { useEffect, useState } from 'react';
 import CreateComment from './CreateComment';
 import PostMenu from './PostMenu';
-import { getReacts, reactPost, sendComment } from 'functions/post';
+import { getReacts, reactPost } from 'functions/post';
 import { useSelector } from 'react-redux';
+import Comment from './Comment';
 
-const Post = ({ post, user: ownUser, profile }) => {
+const Post = ({
+  post,
+  user: ownUser,
+  profile,
+  setTmpPost,
+  setForceRenderPage,
+  homePage,
+  profilePage,
+}) => {
   const { user, type, createdAt, background, text, images } = post;
   const {
     user: { token },
@@ -21,10 +30,20 @@ const Post = ({ post, user: ownUser, profile }) => {
   const [check, setCheck] = useState();
   const [forcePostRender, setForcePostRender] = useState(false);
   const [total, setTotal] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     getPostReact();
   }, [post, forcePostRender]);
+
+  useEffect(() => {
+    setComments(post?.comments);
+
+    return () => {
+      setComments([]);
+    };
+  }, [post]);
 
   const handleReact = async (react) => {
     try {
@@ -50,6 +69,14 @@ const Post = ({ post, user: ownUser, profile }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const showMore = () => {
+    setCount((prev) => prev + 3);
+  };
+
+  const showLess = () => {
+    setCount(1);
   };
 
   return (
@@ -238,7 +265,42 @@ const Post = ({ post, user: ownUser, profile }) => {
           user={ownUser}
           postId={post._id}
           setForcePostRender={setForcePostRender}
+          setTmpPost={setTmpPost}
+          setForceRenderPage={setForceRenderPage}
+          profilePage={profilePage}
+          homePage={homePage}
+          setCount={setCount}
         />
+        {comments
+          ?.sort((a, b) => {
+            return new Date(b.commentAt) - new Date(a.commentAt);
+          })
+          .slice(0, count)
+          .map((comment, index) => (
+            <Comment
+              key={index}
+              comment={comment}
+              ownUser={ownUser}
+              postId={post._id}
+              token={token}
+              setForcePostRender={setForcePostRender}
+              setTmpPost={setTmpPost}
+              setForceRenderPage={setForceRenderPage}
+              profilePage={profilePage}
+              homePage={homePage}
+              setCount={setCount}
+            />
+          ))}
+        {count < comments?.length && (
+          <div className="view_comments" onClick={showMore}>
+            View more comments
+          </div>
+        )}
+        {count !== 1 && count >= comments?.length && (
+          <div className="view_comments" onClick={showLess}>
+            View less comments
+          </div>
+        )}
       </div>
       {postMenuVisible && (
         <PostMenu

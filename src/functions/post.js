@@ -73,3 +73,20 @@ export const sendComment = async (postId, comment, image, token) => {
     return 'OOPS! an error occurred';
   }
 };
+
+export const deleteComment = async (postId, commentId, token) => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_BACKEND_URL}/delete-comment/${postId}/${commentId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return 'OOPS! an error occurred';
+  }
+};
