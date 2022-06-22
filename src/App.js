@@ -1,3 +1,4 @@
+import Friends from 'pages/friends';
 import Home from 'pages/home';
 import Activate from 'pages/home/activate';
 import Login from 'pages/login';
@@ -19,6 +20,28 @@ function App() {
           <Route path="/login" element={<Login />} exact />
         </Route>
         <Route element={<LoggedInRoutes />}>
+          <Route
+            path="/friends"
+            element={
+              <Friends
+                visible={visible}
+                setVisible={setVisible}
+                tmpPost={tmpPost}
+                setTmpPost={setTmpPost}
+              />
+            }
+          />
+          <Route
+            path="/friends/:type"
+            element={
+              <Friends
+                visible={visible}
+                setVisible={setVisible}
+                tmpPost={tmpPost}
+                setTmpPost={setTmpPost}
+              />
+            }
+          />
           <Route
             path="/profile"
             element={

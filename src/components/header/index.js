@@ -15,6 +15,7 @@ import {
   Notifications,
   ArrowDown,
   Home,
+  FriendsActive,
 } from '../../svg';
 import AllMenu from './AllMenu';
 import SearchMenu from './SearchMenu';
@@ -77,8 +78,11 @@ const Header = ({ page }) => {
         >
           {page === 'home' ? <HomeActive /> : <Home color={color} />}
         </Link>
-        <Link to={'/'} className="middle_icon hover1">
-          <Friends color={color} />
+        <Link
+          to={'/friends'}
+          className={`middle_icon ${page === 'friends' ? 'active' : 'hover1'}`}
+        >
+          {page === 'friends' ? <FriendsActive /> : <Friends color={color} />}
         </Link>
         <Link to={'/'} className="middle_icon hover1">
           <Watch color={color} />

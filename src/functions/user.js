@@ -235,3 +235,19 @@ export const deleteHistory = async (searchId, token) => {
     return 'OOPS! an error occurred';
   }
 };
+
+export const getFriendsPageInfos = async (token) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/get-friends-page-infos`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return 'OOPS! an error occurred';
+  }
+};
