@@ -10,7 +10,12 @@ import PostError from './PostError';
 import dataURItoBlob from 'helpers/dataURItoBlog';
 import { uploadImages } from 'functions/uploadImages';
 
-const CreatePostPopup = ({ user, setVisible, setTmpPost }) => {
+const CreatePostPopup = ({
+  user,
+  setVisible,
+  setTmpPost,
+  setForceRenderPage,
+}) => {
   const { picture, first_name, last_name } = user;
   const [text, setText] = useState('');
   const [showPreview, setShowPreview] = useState(false);
@@ -42,6 +47,7 @@ const CreatePostPopup = ({ user, setVisible, setTmpPost }) => {
         setBackground('');
         setVisible(false);
         setTmpPost((prev) => !prev);
+        setForceRenderPage((prev) => !prev);
       } else {
         setError(response);
       }
@@ -71,6 +77,7 @@ const CreatePostPopup = ({ user, setVisible, setTmpPost }) => {
         setBackground('');
         setVisible(false);
         setTmpPost((prev) => !prev);
+        setForceRenderPage((prev) => !prev);
       } else {
         setError(sendResponse);
       }
@@ -90,6 +97,7 @@ const CreatePostPopup = ({ user, setVisible, setTmpPost }) => {
         setBackground('');
         setVisible(false);
         setTmpPost((prev) => !prev);
+        setForceRenderPage((prev) => !prev);
       } else {
         setError(response);
       }

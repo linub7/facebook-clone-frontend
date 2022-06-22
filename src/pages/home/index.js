@@ -28,6 +28,10 @@ const Home = ({ visible, setVisible, tmpPost, setTmpPost }) => {
     setHeight(middle.current.clientHeight);
 
     getAllPosts();
+
+    return () => {
+      setHeight('');
+    };
   }, [tmpPost]);
 
   const getAllPosts = async () => {
@@ -63,15 +67,16 @@ const Home = ({ visible, setVisible, tmpPost, setTmpPost }) => {
         {!user.verified && <SendVerification token={user.token} />}
         <CreatePost user={user} setVisible={setVisible} />
         <div className="posts">
-          {posts.map((post) => (
-            <Post
-              post={post}
-              key={post._id}
-              user={user}
-              setTmpPost={setTmpPost}
-              homePage
-            />
-          ))}
+          {posts &&
+            posts?.map((post) => (
+              <Post
+                post={post}
+                key={post._id}
+                user={user}
+                setTmpPost={setTmpPost}
+                homePage
+              />
+            ))}
         </div>
       </div>
       <RightHome user={user} />

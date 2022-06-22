@@ -95,6 +95,7 @@ const Profile = ({ visible, setVisible, setTmpPost }) => {
           user={user}
           setVisible={setVisible}
           setTmpPost={setTmpPost}
+          setForceRenderPage={setForceRenderPage}
         />
       )}
       <Header page={'profile'} />

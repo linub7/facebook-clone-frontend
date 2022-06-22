@@ -157,13 +157,13 @@ const Post = ({
       ) : type === 'profilePicture' ? (
         <div className="post_profile_wrap">
           <div className="post_updated_bg">
-            {user.cover && (
+            {/* {user.cover && (
               <img
                 src={user.cover}
                 alt="cover"
                 className="post_updated_bg_cover"
               />
-            )}
+            )} */}
           </div>
           <img src={images[0].url} alt="" className="post_updated_picture" />
         </div>
@@ -192,7 +192,9 @@ const Post = ({
           <div className="reacts_count_num">{total > 0 && total}</div>
         </div>
         <div className="to_right">
-          <div className="comments_count">13 comment</div>
+          <div className="comments_count">
+            {post?.comments?.length} comments
+          </div>
           <div className="share_count">1 share</div>
         </div>
       </div>
@@ -291,12 +293,12 @@ const Post = ({
               setCount={setCount}
             />
           ))}
-        {count < comments?.length && (
+        {comments?.length !== 0 && count < comments?.length && (
           <div className="view_comments" onClick={showMore}>
             View more comments
           </div>
         )}
-        {count !== 1 && count >= comments?.length && (
+        {comments?.length !== 0 && count > comments?.length && (
           <div className="view_comments" onClick={showLess}>
             View less comments
           </div>

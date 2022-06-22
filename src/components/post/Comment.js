@@ -1,6 +1,7 @@
 import { deleteComment } from 'functions/post';
 import { useState } from 'react';
 import Moment from 'react-moment';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Comment = ({
@@ -16,13 +17,14 @@ const Comment = ({
   setCount,
 }) => {
   const [hoverMode, setHoverMode] = useState(false);
+  const { user } = useSelector((state) => ({ ...state }));
 
-  const ownComment = comment.commentBy._id === ownUser.id ? true : false;
+  const ownComment = comment.commentBy._id === user.id ? true : false;
+
   const handleDelete = async () => {
     if (window.confirm('Are you Sure?')) {
       const commentId = comment._id;
-      const res = await deleteComment(postId, commentId, token);
-      console.log(res);
+      await deleteComment(postId, commentId, token);
       setForcePostRender((prev) => !prev);
       setCount((prev) => prev - 1);
       homePage && setTmpPost((prev) => !prev);

@@ -1,5 +1,5 @@
 import useClickOutside from 'helpers/clickOutside';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -33,6 +33,14 @@ const Header = ({ page }) => {
   const allMenu = useRef(null);
   const userMenu = useRef(null);
 
+  useEffect(() => {
+    return () => {
+      setShowSearchMenu(false);
+      setShowAllMenu(false);
+      setShowUserMenu(false);
+    };
+  }, []);
+
   useClickOutside(allMenu, () => {
     setShowAllMenu(false);
   });
@@ -56,7 +64,11 @@ const Header = ({ page }) => {
       </div>
 
       {showSearchMenu && (
-        <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
+        <SearchMenu
+          color={color}
+          setShowSearchMenu={setShowSearchMenu}
+          token={user?.token}
+        />
       )}
       <div className="header_middle">
         <Link
