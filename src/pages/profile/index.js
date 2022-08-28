@@ -1,3 +1,5 @@
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
 import CreatePost from 'components/createPost';
 import CreatePostPopup from 'components/createPostPopup';
@@ -16,6 +18,10 @@ import Post from 'components/post';
 import Photos from 'components/profile/Photos';
 import Friends from 'components/profile/Friends';
 import Intro from 'components/profile/intro';
+import { HashLoader } from 'react-spinners';
+import ProfileTopSkeletons from 'components/profile/skeletons/ProfileTopSkeletons';
+import ProfileLeftSkeletons from 'components/profile/skeletons/ProfileLeftSkeletons';
+import CommonSkeleton from 'components/shared/CommonSkeleton';
 
 const Profile = ({ visible, setVisible, setTmpPost }) => {
   const { username } = useParams();
@@ -101,23 +107,29 @@ const Profile = ({ visible, setVisible, setTmpPost }) => {
       <Header page={'profile'} />
       <div className="profile_top">
         <div className="profile_container">
-          <Cover
-            setForceRenderPage={setForceRenderPage}
-            user={user}
-            cover={profile?.cover}
-            visitor={visitor}
-            showCoverMenu={showCoverMenu}
-            setShowCoverMenu={setShowCoverMenu}
-            photos={photos.resources}
-          />
-          <ProfilePictureInfos
-            profile={profile}
-            visitor={visitor}
-            photos={photos.resources}
-            username={user.username}
-            othername={othername}
-            setForceRenderPage={setForceRenderPage}
-          />
+          {loading ? (
+            <ProfileTopSkeletons visitor={visitor} />
+          ) : (
+            <>
+              <Cover
+                setForceRenderPage={setForceRenderPage}
+                user={user}
+                cover={profile?.cover}
+                visitor={visitor}
+                showCoverMenu={showCoverMenu}
+                setShowCoverMenu={setShowCoverMenu}
+                photos={photos.resources}
+              />
+              <ProfilePictureInfos
+                profile={profile}
+                visitor={visitor}
+                photos={photos.resources}
+                username={user.username}
+                othername={othername}
+                setForceRenderPage={setForceRenderPage}
+              />
+            </>
+          )}
           <ProfileMenu />
         </div>
       </div>
@@ -127,40 +139,53 @@ const Profile = ({ visible, setVisible, setTmpPost }) => {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
-                <Intro
-                  details={profile?.details}
-                  visitor={visitor}
-                  token={user.token}
-                  setForceRenderPage={setForceRenderPage}
-                />
-                <Photos
-                  userName={userName}
-                  token={user.token}
-                  photos={photos}
-                />
-                <Friends friends={profile?.friends} />
+                {loading ? (
+                  <ProfileLeftSkeletons />
+                ) : (
+                  <>
+                    <Intro
+                      details={profile?.details}
+                      visitor={visitor}
+                      token={user.token}
+                      setForceRenderPage={setForceRenderPage}
+                    />
+                    <Photos
+                      userName={userName}
+                      token={user.token}
+                      photos={photos}
+                    />
+                    <Friends friends={profile?.friends} />
+                  </>
+                )}
               </div>
               <div className="profile_right">
                 {!visitor && (
                   <CreatePost user={user} profile setVisible={setVisible} />
                 )}
                 <GridPosts />
-                <div className="posts">
-                  {profile.posts && profile.posts.length ? (
-                    profile.posts.map((post) => (
-                      <Post
-                        key={post._id}
-                        post={post}
-                        user={post.user}
-                        setForceRenderPage={setForceRenderPage}
-                        profile
-                        profilePage
-                      />
-                    ))
-                  ) : (
-                    <div className="no_posts">No Posts Available</div>
-                  )}
-                </div>
+
+                {loading ? (
+                  <CommonSkeleton />
+                ) : (
+                  <>
+                    <div className="posts">
+                      {profile.posts && profile.posts.length ? (
+                        profile.posts.map((post) => (
+                          <Post
+                            key={post._id}
+                            post={post}
+                            user={post.user}
+                            setForceRenderPage={setForceRenderPage}
+                            profile
+                            profilePage
+                          />
+                        ))
+                      ) : (
+                        <div className="no_posts">No Posts Available</div>
+                      )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

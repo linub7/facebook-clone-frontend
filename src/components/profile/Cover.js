@@ -111,10 +111,6 @@ const Cover = ({
           setCoverPicture('');
           coverPhotoRef.current.src = `${res[0].url}`;
           setForceRenderPage((prev) => !prev);
-          // coverRef.current.style.backgroundImage = `url(${res[0].url})`;
-          // Cookies.set('user', JSON.stringify({ ...user, cover: res[0].url }));
-          // dispatch({ type: 'UPDATE_COVER', payload: res[0].url });
-          // setShow(false);
         } else {
           setError(newPost);
           setLoading(false);

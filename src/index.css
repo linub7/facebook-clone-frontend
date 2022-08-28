@@ -206,3 +206,10 @@ a {
     brightness(97%) contrast(96%);
 }
 /* -- Filters -- */
+
+.skeleton-loader {
+  height: 100px;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}

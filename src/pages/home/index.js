@@ -6,6 +6,7 @@ import LeftHome from 'components/home/left';
 import RightHome from 'components/home/right';
 import SendVerification from 'components/home/sendVerification';
 import Post from 'components/post';
+import CommonSkeleton from 'components/shared/CommonSkeleton';
 import Stories from 'components/stories';
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -66,18 +67,26 @@ const Home = ({ visible, setVisible, tmpPost, setTmpPost }) => {
         <Stories />
         {!user.verified && <SendVerification token={user.token} />}
         <CreatePost user={user} setVisible={setVisible} />
-        <div className="posts">
-          {posts &&
-            posts?.map((post) => (
-              <Post
-                post={post}
-                key={post._id}
-                user={user}
-                setTmpPost={setTmpPost}
-                homePage
-              />
-            ))}
-        </div>
+        {loading ? (
+          <>
+            <CommonSkeleton />
+          </>
+        ) : (
+          <>
+            <div className="posts">
+              {posts &&
+                posts?.map((post) => (
+                  <Post
+                    post={post}
+                    key={post._id}
+                    user={user}
+                    setTmpPost={setTmpPost}
+                    homePage
+                  />
+                ))}
+            </div>
+          </>
+        )}
       </div>
       <RightHome user={user} />
     </div>

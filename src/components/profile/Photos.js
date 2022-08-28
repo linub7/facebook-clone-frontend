@@ -1,7 +1,3 @@
-import axios from 'axios';
-import { useEffect, useReducer } from 'react';
-import { photosReducer } from 'reducers/photosReducer';
-
 const Photos = ({ userName, token, photos }) => {
   return (
     <div className="profile_card">

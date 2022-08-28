@@ -570,3 +570,12 @@
     transform: translateX(2rem);
   }
 }
+
+.fix {
+  flex-direction: row !important;
+}
+
+.react-loading-skeleton {
+  --base-color: #ccc !important;
+  --highlight-color: #ddd !important;
+}
